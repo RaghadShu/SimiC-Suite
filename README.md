@@ -93,7 +93,7 @@ Citation will be added upon publication.
 
 ### SimiCPipeline / SimiC
 
-Peng X. et al. (2022). SimiC: A Single Cell Gene Regulatory Network Inference Method with Similarity Constraints. Bioinformatics.
+Peng, J., Serrano, G., Traniello, I.M. et al. SimiC enables the inference of complex gene regulatory dynamics across cell phenotypes. Commun Biol 5, 351 (2022). https://doi.org/10.1038/s42003-022-03319-7
 
 ---
 
