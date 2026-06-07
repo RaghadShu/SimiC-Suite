@@ -1,0 +1,32 @@
+---
+title: "Citation"
+---
+
+## SimiC-Suite
+
+Please cite the SimiC-Suite application note when using the combined software suite.
+
+```bibtex
+@article{simic_suite_placeholder,
+  title   = {SimiC-Suite: A reproducible framework for phenotype-specific gene regulatory network analysis from single-cell RNA-seq data},
+  author  = {Author names to be added},
+  journal = {Journal to be added},
+  year    = {Year to be added},
+  doi     = {DOI to be added}
+}
+```
+
+## Original SimiC Citation
+
+Please also cite the original SimiC work when using SimiCPipeline where appropriate.
+
+```bibtex
+@article{simic_original_placeholder,
+  title   = {Original SimiC citation title to be added},
+  author  = {Author names to be added},
+  journal = {Journal to be added},
+  year    = {Year to be added},
+  doi     = {DOI to be added}
+}
+```
+
