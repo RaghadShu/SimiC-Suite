@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="description" content="Python package for phenotype-specific GRN inference and Regulon Activity Score (RAS) calculation.">
 
-<title>Documentation – SimiC-Suite</title>
+<title>SimiCPipeline – SimiC-Suite</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -97,7 +98,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./simicpipeline.html"> 
+    <a class="nav-link active" href="./simicpipeline.html" aria-current="page"> 
 <span class="menu-text">SimiCPipeline</span></a>
   </li>  
   <li class="nav-item">
@@ -124,8 +125,8 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#getting-started" id="toc-getting-started" class="nav-link active" data-scroll-target="#getting-started">Getting Started</a></li>
-  <li><a href="#suggested-workflow" id="toc-suggested-workflow" class="nav-link" data-scroll-target="#suggested-workflow">Suggested Workflow</a></li>
+  <li><a href="#tutorials" id="toc-tutorials" class="nav-link active" data-scroll-target="#tutorials">Tutorials</a></li>
+  <li><a href="#helper-scripts" id="toc-helper-scripts" class="nav-link" data-scroll-target="#helper-scripts">Helper Scripts</a></li>
   </ul>
 </nav>
     </div>
@@ -134,9 +135,14 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Documentation</h1>
+<h1 class="title">SimiCPipeline</h1>
 </div>
 
+<div>
+  <div class="description">
+    Python package for phenotype-specific GRN inference and Regulon Activity Score (RAS) calculation.
+  </div>
+</div>
 
 
 <div class="quarto-title-meta">
@@ -151,87 +157,37 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="getting-started" class="level2">
-<h2 class="anchored" data-anchor-id="getting-started">Getting Started</h2>
-<p>SimiC-Suite contains two complementary packages:</p>
-<div class="tabset-margin-container"></div><div class="package-tabs panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">SimiCPipeline</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">SimiCviz</a></li></ul>
-<div class="package-tabs tab-content">
-<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div class="package-panel pipeline-panel">
-<p>Use SimiCPipeline when the goal is to infer phenotype-specific gene regulatory networks from single-cell RNA-seq data and compute Regulon Activity Score (RAS) values.</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Step</th>
-<th>Purpose</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Data preparation</td>
-<td>Use single-cell RNA-seq counts and phenotype labels.</td>
-</tr>
-<tr class="even">
-<td>GRN inference</td>
-<td>Learn phenotype-specific regulatory networks.</td>
-</tr>
-<tr class="odd">
-<td>RAS calculation</td>
-<td>Calculate Regulon Activity Score (RAS) values for downstream interpretation.</td>
-</tr>
-</tbody>
-</table>
-<p><a href="https://github.com/ML4BM-Lab/SimiCPipeline" class="btn btn-primary">Open SimiCPipeline repository</a></p>
-</div>
-</div>
-<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<div class="package-panel viz-panel">
-<p>Use SimiCviz when the goal is to assess, compare, and visualize GRN outputs in R / Bioconductor workflows. SimiCviz is designed to be tool-agnostic, so it can support outputs from different GRN inference approaches.</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Step</th>
-<th>Purpose</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>GRN assessment</td>
-<td>Inspect inferred network weights and summary statistics.</td>
-</tr>
-<tr class="even">
-<td>RAS visualization</td>
-<td>Compare Regulon Activity Score (RAS) patterns across labels and cell types.</td>
-</tr>
-<tr class="odd">
-<td>Reporting</td>
-<td>Generate reproducible tables and figures for downstream analysis.</td>
-</tr>
-</tbody>
-</table>
-<p><a href="https://github.com/ML4BM-Lab/SimiCviz" class="btn btn-danger">Open SimiCviz repository</a></p>
-</div>
-</div>
-</div>
+<p>SimiCPipeline is the Python component of SimiC-Suite. It supports phenotype-specific gene regulatory network (GRN) inference from single-cell RNA-seq data and calculation of Regulon Activity Score (RAS) values for downstream interpretation.</p>
+<p>SimiCPipeline builds on the SimiC framework for phenotype-aware regulatory network analysis. Please cite the original SimiC work when using SimiCPipeline where appropriate.</p>
+<p><a href="https://github.com/ML4BM-Lab/SimiCPipeline" class="btn btn-primary">View SimiCPipeline on GitHub</a></p>
+<section id="tutorials" class="level2">
+<h2 class="anchored" data-anchor-id="tutorials">Tutorials</h2>
+<p>The tutorials below are local rendered copies of the Jupyter notebooks from the <code>ML4BM-Lab/SimiCPipeline</code> repository. They are rendered without executing code during website publication.</p>
+<div class="tutorial-grid">
+<section id="full-pipeline-tutorial" class="level3 tutorial-card pipeline-card">
+<h3 class="anchored" data-anchor-id="full-pipeline-tutorial">Full Pipeline Tutorial</h3>
+<p>Complete SimiCPipeline walkthrough, including initialization, parameter configuration, GRN inference, RAS calculation, and downstream result inspection.</p>
+<p><a href="tutorials/simicpipeline/Tutorial_SimiCPipeline_full.html" class="btn btn-primary">Open tutorial</a> <a class="btn btn-outline-primary" href="tutorials/simicpipeline/downloads/Tutorial_SimiCPipeline_full.ipynb" download="">Download notebook</a></p>
+</section>
+<section id="preprocessing-tutorial" class="level3 tutorial-card pipeline-card">
+<h3 class="anchored" data-anchor-id="preprocessing-tutorial">Preprocessing Tutorial</h3>
+<p>Notebook covering data preparation steps for SimiCPipeline inputs, including expression data, transcription factor lists, and phenotype labels.</p>
+<p><a href="tutorials/simicpipeline/Tutorial_SimiCPipeline_preprocessing.html" class="btn btn-primary">Open tutorial</a> <a class="btn btn-outline-primary" href="tutorials/simicpipeline/downloads/Tutorial_SimiCPipeline_preprocessing.ipynb" download="">Download notebook</a></p>
+</section>
+<section id="visualization-tutorial" class="level3 tutorial-card pipeline-card">
+<h3 class="anchored" data-anchor-id="visualization-tutorial">Visualization Tutorial</h3>
+<p>Notebook focused on inspecting and visualizing SimiCPipeline outputs after GRN inference and RAS calculation.</p>
+<p><a href="tutorials/simicpipeline/Tutorial_SimiCPipeline_visualization.html" class="btn btn-primary">Open tutorial</a> <a class="btn btn-outline-primary" href="tutorials/simicpipeline/downloads/Tutorial_SimiCPipeline_visualization.ipynb" download="">Download notebook</a></p>
+</section>
 </div>
 </section>
-<section id="suggested-workflow" class="level2">
-<h2 class="anchored" data-anchor-id="suggested-workflow">Suggested Workflow</h2>
-<ol type="1">
-<li>Prepare single-cell RNA-seq data and phenotype annotations.</li>
-<li>Run SimiCPipeline for phenotype-specific GRN inference.</li>
-<li>Calculate Regulon Activity Score (RAS) values with SimiCPipeline.</li>
-<li>Use SimiCviz to assess and visualize GRN outputs.</li>
-</ol>
+<section id="helper-scripts" class="level2">
+<h2 class="anchored" data-anchor-id="helper-scripts">Helper Scripts</h2>
+<p>These reference scripts are copied from the SimiCPipeline notebook folder.</p>
+<ul>
+<li><a href="tutorials/simicpipeline/run_preprocessing.py">run_preprocessing.py</a></li>
+<li><a href="tutorials/simicpipeline/run_simicpipeline.py">run_simicpipeline.py</a></li>
+</ul>
 
 
 </section>

@@ -1,0 +1,2135 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>SimiC Pipeline - Visualization Tutorial – SimiC-Suite</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-158031087360bce0ff56dc785ce39e06.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">SimiC-Suite</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../simicpipeline.html"> 
+<span class="menu-text">SimiCPipeline</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../simicviz.html"> 
+<span class="menu-text">SimiCviz</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../citation.html"> 
+<span class="menu-text">Citation</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#step-1-initialize-visualization-object" id="toc-step-1-initialize-visualization-object" class="nav-link" data-scroll-target="#step-1-initialize-visualization-object">Step 1: Initialize Visualization Object</a></li>
+  <li><a href="#step-2-weight-distribution-visualizations" id="toc-step-2-weight-distribution-visualizations" class="nav-link" data-scroll-target="#step-2-weight-distribution-visualizations">Step 2: Weight Distribution Visualizations</a>
+  <ul class="collapse">
+  <li><a href="#r²-distribution-plots" id="toc-r²-distribution-plots" class="nav-link" data-scroll-target="#r²-distribution-plots">R² Distribution Plots</a></li>
+  <li><a href="#tf-weight-barplots" id="toc-tf-weight-barplots" class="nav-link" data-scroll-target="#tf-weight-barplots">TF Weight Barplots</a></li>
+  <li><a href="#target-gene-weight-barplots" id="toc-target-gene-weight-barplots" class="nav-link" data-scroll-target="#target-gene-weight-barplots">Target Gene Weight Barplots</a></li>
+  </ul></li>
+  <li><a href="#step-3-auc-distribution-visualizations" id="toc-step-3-auc-distribution-visualizations" class="nav-link" data-scroll-target="#step-3-auc-distribution-visualizations">Step 3: AUC Distribution Visualizations</a>
+  <ul class="collapse">
+  <li><a href="#basic-auc-distributions" id="toc-basic-auc-distributions" class="nav-link" data-scroll-target="#basic-auc-distributions">Basic AUC Distributions</a></li>
+  <li><a href="#auc-distribution-variations" id="toc-auc-distribution-variations" class="nav-link" data-scroll-target="#auc-distribution-variations">AUC Distribution Variations</a></li>
+  <li><a href="#cumulative-activity-scores-distribution" id="toc-cumulative-activity-scores-distribution" class="nav-link" data-scroll-target="#cumulative-activity-scores-distribution">Cumulative Activity Scores distribution</a></li>
+  </ul></li>
+  <li><a href="#step-4-dissimilarity-heatmap" id="toc-step-4-dissimilarity-heatmap" class="nav-link" data-scroll-target="#step-4-dissimilarity-heatmap">Step 4: Dissimilarity Heatmap</a></li>
+  <li><a href="#step-5-summary-statistics-visualization" id="toc-step-5-summary-statistics-visualization" class="nav-link" data-scroll-target="#step-5-summary-statistics-visualization">Step 5: Summary Statistics Visualization</a></li>
+  <li><a href="#step-6-umap-integration-optional" id="toc-step-6-umap-integration-optional" class="nav-link" data-scroll-target="#step-6-umap-integration-optional">Step 6: UMAP Integration (Optional)</a></li>
+  <li><a href="#step-8-export-results" id="toc-step-8-export-results" class="nav-link" data-scroll-target="#step-8-export-results">Step 8: Export Results</a></li>
+  <li><a href="#additional-functionalities" id="toc-additional-functionalities" class="nav-link" data-scroll-target="#additional-functionalities">Additional functionalities</a>
+  <ul class="collapse">
+  <li><a href="#customize-label-names" id="toc-customize-label-names" class="nav-link" data-scroll-target="#customize-label-names">Customize Label Names</a></li>
+  <li><a href="#set-up-file-paths" id="toc-set-up-file-paths" class="nav-link" data-scroll-target="#set-up-file-paths">Set Up File Paths</a></li>
+  </ul></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps">Next Steps</a></li>
+  <li><a href="#additional-resources" id="toc-additional-resources" class="nav-link" data-scroll-target="#additional-resources">Additional Resources</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">SimiC Pipeline - Visualization Tutorial</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<blockquote class="blockquote">
+<p><em>Author: Irene Marín-Goñi, PhD student - ML4BM group (CIMA University of Navarra)</em></p>
+</blockquote>
+<p>This notebook provides a comprehensive guide to explore <code>SimiCPipeline</code> results and generate visualizations with publication-quality.</p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>This tutorial covers: 1. Creating a visualization object from your results 2. Customizing labels for better readability 3. Weight distribution visualizations 4. AUC score distributions and comparisons 5. Dissimilarity heatmaps 6. UMAP integration with TF activity scores 7. Network-specific visualizations</p>
+<p>For preprocessing steps, see <code>Tutorial_SimiCPipeline_preprocessing.ipynb</code>.</p>
+<p>For pipeline execution, see <code>Tutorial_SimiCPipeline_full.ipynb</code></p>
+</section>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<p>The easiest way to configure your environment is to follow the <code>README</code> instructions using <code>poetry</code> (or <code>Docker</code>).</p>
+<p>Required packages for this tutorial: - simicpipeline - pandas - numpy - os - pickle - anndata (for UMAP visualizations) - scanpy (for UMAP visualizations)</p>
+<div id="cell-4" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(os.getcwd())</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(os.listdir())</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> simicpipeline </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"SimiC pipeline version: "</span>, {simicpipeline.__version__})</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> simicpipeline <span class="im">import</span> SimiCVisualization</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>/home/workdir
+['SimiCExampleRun', 'data']
+SimiC pipeline version:  {'0.1.0'}</code></pre>
+</div>
+</div>
+</section>
+<section id="step-1-initialize-visualization-object" class="level2">
+<h2 class="anchored" data-anchor-id="step-1-initialize-visualization-object">Step 1: Initialize Visualization Object</h2>
+<p>Create a visualization instance loading data from your completed pipeline run. - <code>project_dir</code>: Working directory path where input files are located and output files will be saved - <code>run_name</code>: Unique identifier for this analysis run (used as prefix for output files) - <code>search</code>: Bool for whether to automatically search for simic output files in project directory. Default: <code>True</code>. - <code>lambda1</code>: Lambda1 regularization parameter (optional) - <code>lambda2</code>: Lambda2 regularization parameter (optional) - <code>label_names</code>: Dictionary mapping labels to custom names (optional) - <code>adata</code>: AnnData object containing cell metadata (optional)</p>
+<div id="cell-6" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>viz <span class="op">=</span> SimiCVisualization(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    project_dir<span class="op">=</span><span class="st">"./SimiCExampleRun/KPB25L/Tumor"</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    run_name<span class="op">=</span><span class="st">"experiment_tumor"</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    lambda1<span class="op">=</span><span class="fl">1e-2</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    lambda2<span class="op">=</span><span class="fl">1e-3</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    p2assignment<span class="op">=</span><span class="st">"./SimiCExampleRun/KPB25L/Tumor/inputFiles/treatment_annotation.csv"</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    label_names<span class="op">=</span>{<span class="dv">0</span>: <span class="st">'Control'</span>, <span class="dv">1</span>: <span class="st">'PD-L1'</span>,<span class="dv">2</span>: <span class="st">'DAC'</span>,<span class="dv">3</span>: <span class="st">'Combination'</span>},</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    colors<span class="op">=</span>{<span class="dv">0</span>: <span class="st">'#e0e0e0'</span>, <span class="dv">1</span>: <span class="st">'#a8c8ff'</span>, <span class="dv">2</span>: <span class="st">'#ffb6b6'</span>, <span class="dv">3</span>: <span class="st">'#c1a9e0'</span>}</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Warning: Figures path already exists. Existing figures may be overwritten.</code></pre>
+</div>
+</div>
+<div id="cell-7" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize visualization object</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>viz <span class="op">=</span> SimiCVisualization(</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    project_dir<span class="op">=</span><span class="st">"./SimiCExampleRun/KPB25L/Tumor"</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    run_name<span class="op">=</span><span class="st">"experiment_tumor"</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    lambda1<span class="op">=</span><span class="fl">1e-2</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    lambda2<span class="op">=</span><span class="fl">1e-3</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    p2assignment<span class="op">=</span><span class="st">"./SimiCExampleRun/KPB25L/Tumor/inputFiles/treatment_annotation.csv"</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    label_names<span class="op">=</span>{<span class="dv">0</span>: <span class="st">'Control'</span>, <span class="dv">1</span>: <span class="st">'PD-L1'</span>,<span class="dv">2</span>: <span class="st">'DAC'</span>,<span class="dv">3</span>: <span class="st">'Combination'</span>},</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    colors<span class="op">=</span>{<span class="dv">0</span>: <span class="st">'#e0e0e0'</span>, <span class="dv">1</span>: <span class="st">'#a8c8ff'</span>, <span class="dv">2</span>: <span class="st">'#ffb6b6'</span>, <span class="dv">3</span>: <span class="st">'#c1a9e0'</span>}</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"✓ Visualization object created"</span>)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Project directory: </span><span class="sc">{</span>viz<span class="sc">.</span>project_dir<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Run name: </span><span class="sc">{</span>viz<span class="sc">.</span>run_name<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Figures will be saved to: </span><span class="sc">{</span>viz<span class="sc">.</span>figures_path<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co"># List available results (check in case there were typing errors)</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>viz.available_results()</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>viz.print_project_info(max_depth<span class="op">=</span><span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Creating figures directory at: SimiCExampleRun/KPB25L/Tumor/outputSimic/figures/experiment_tumor
+✓ Visualization object created
+  Project directory: SimiCExampleRun/KPB25L/Tumor
+  Run name: experiment_tumor
+  Figures will be saved to: SimiCExampleRun/KPB25L/Tumor/outputSimic/figures/experiment_tumor
+
+Available Results:
+✓ Ws_raw
+✓ Ws_filtered
+✗ auc_raw
+✓ auc_filtered
+
+======================================================================
+Tumor/
+├── inputFiles/
+│   ├── TF_list.csv
+│   ├── expression_matrix.pickle
+│   └── treatment_annotation.csv
+└── outputSimic/
+    ├── figures/
+    │   └── experiment_tumor/
+    └── matrices/
+        └── experiment_tumor/
+            ├── experiment_tumor_L1_0.01_L2_0.001_simic_matrices.pickle
+            ├── experiment_tumor_L1_0.01_L2_0.001_simic_matrices_filtered_BIC.pickle
+            ├── experiment_tumor_L1_0.01_L2_0.001_wAUC_matrices_filtered_BIC.pickle
+            └── experiment_tumor_L1_0.01_L2_0.001_wAUC_matrices_filtered_BIC_collected.csv</code></pre>
+</div>
+</div>
+<p>Just that simple the viz object localized all the data and you can start plotting!</p>
+</section>
+<section id="step-2-weight-distribution-visualizations" class="level2">
+<h2 class="anchored" data-anchor-id="step-2-weight-distribution-visualizations">Step 2: Weight Distribution Visualizations</h2>
+<section id="r²-distribution-plots" class="level3">
+<h3 class="anchored" data-anchor-id="r²-distribution-plots">R² Distribution Plots</h3>
+<p>Visualize the quality of regression fits across phenotypes.</p>
+<div id="cell-10" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot R² distributions</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> viz.plot_r2_distribution(</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    threshold<span class="op">=</span><span class="fl">0.7</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># labels =[0,2],</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    save<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    grid_layout<span class="op">=</span>(<span class="dv">2</span>,<span class="dv">2</span>),</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    filename<span class="op">=</span><span class="st">"R2_distribution.pdf"</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"✓ R² distribution plots created"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+======================================================================
+PLOTTING R² DISTRIBUTIONS
+======================================================================
+</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Tutorial_SimiCPipeline_visualization_files/figure-html/cell-5-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>✓ R² distribution plots created</code></pre>
+</div>
+</div>
+<p>Here we can see that the distribution of adjusted R2 values across all targets. Most of them are over 0.7, indicating that the model explains a significant portion of the variance in the target gene expression. However, there are also some targets with low or negative adjusted R2 values, suggesting that the model does not fit well for those targets. This could be due to various reasons such as noise in the data, missing regulatory interactions, or complex regulatory mechanisms that are not captured by the model.</p>
+<p>For these targets with low adjusted R2, we suggest to filter them out before plotting. For the TF-barplots we already allow this with the parameter <code>r2_threshold</code>. We selected a threshold of 0.7 as it was the same used to calculate the activity scores during the SimiC pipeline (See <code>Tutorial_SimicPipeline_full.ipynb</code> -&gt; <code>auc_params = { 'adj_r2_threshold': 0.7,...}</code>)</p>
+<p>You can change this threshold as needed, but you should re-run the SimiCPipeline auc calculation with the same threshold to be consistent.</p>
+<p>With this function you can extract the targets that do not pass the threshold</p>
+<div id="cell-13" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This is an example on how to extract the list of targets that were filtered out based on the R² thresholding</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>unselected_targets <span class="op">=</span> viz.get_unselected_targets(<span class="st">'Ws_filtered'</span>, r2_threshold <span class="op">=</span> <span class="fl">0.7</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(unselected_targets[<span class="dv">0</span>][<span class="dv">0</span>:<span class="dv">5</span>])</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">len</span>(unselected_targets[<span class="dv">0</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>['Malat1', 'Rn18s-rs5', 'Cmss1', 'Lars2', 'Frmd5']
+85</code></pre>
+</div>
+</div>
+<p>As described in <code>Tutorial_SimicPipeline_full.ipynb</code> you can extract the network for a specific TF with the <code>r2_threshold</code> desired. <code>NaNs</code> will be displayed if the target gene has an adjusted R2 value below that threshold.</p>
+<div id="cell-15" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of specific TF network extraction</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> viz.get_TF_network( TF_name<span class="op">=</span><span class="st">"Zfp950"</span>, stacked <span class="op">=</span> <span class="va">True</span>, r2_threshold<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.head(<span class="dv">10</span>))</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>,<span class="st">"*"</span><span class="op">*</span><span class="dv">70</span>,<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"TF network shape:"</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.shape)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Retrieving network for TF: Zfp950
+Filtered out 696 targets. 304 targets remain.
+  - 485 targets removed due to zero weights across all labels.
+  - 211 targets removed due r2 across all labels .
+                0         1         2         3
+Camkmt   2.995173  1.127846  2.233782  1.863006
+Gm12610  1.481554  1.452781  1.739482  2.827409
+Dzip3    1.476733  1.754355  2.603603  2.436338
+Cntnap4  2.584637  1.238455  0.000000  0.000000
+Gm10069  2.557260  1.572510  0.000000  0.000000
+Rtp4     2.527526  1.082883       NaN  0.000000
+Hdac8    2.413334  1.843504  1.387122  2.233553
+Ccdc77   1.706087  1.944424  2.407435  2.037323
+Macrod2  0.000000  0.000000  2.326711  1.771953
+Cep57l1  1.362048  1.422342  1.815655  2.220214
+
+ ********************************************************************** 
+
+TF network shape:
+(304, 4)</code></pre>
+</div>
+</div>
+<p>If you prefer we also have a heatmap option to plot TF-specific networks</p>
+<div id="cell-17" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>fig, df <span class="op">=</span> viz.plot_tf_network_heatmap(<span class="st">"Zfp950"</span>,</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>                            top_n_targets <span class="op">=</span> <span class="dv">10</span>,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                            r2_threshold<span class="op">=</span> <span class="fl">0.7</span>,</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>                            labels<span class="op">=</span> [<span class="dv">0</span>,<span class="dv">1</span>],</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>                            cmap <span class="op">=</span> <span class="st">'RdBu_r'</span>,</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>                            save <span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>                            mute <span class="op">=</span> <span class="va">True</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+======================================================================
+PLOTTING TF NETWORK HEATMAP
+======================================================================
+
+Processing Zfp950...
+Retrieving network for TF: Zfp950
+Filtered out 696 targets. 304 targets remain.
+  - 485 targets removed due to zero weights across all labels.
+  - 211 targets removed due r2 across all labels .
+Total targets for Zfp950: 304</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Tutorial_SimiCPipeline_visualization_files/figure-html/cell-8-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We can plot any TF and targets that we want but to prioritize we can use the dissimilarity score across all labels to sort out a list of interesting TFs.</p>
+<div id="cell-19" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get top TFs by dissimilarity score for visualization</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>MinMax_all <span class="op">=</span> viz.calculate_dissimilarity(verbose<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>top_tfs <span class="op">=</span> MinMax_all.head(<span class="dv">10</span>).index.tolist()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+======================================================================
+CALCULATING DISSIMILARITY SCORES ACROSS LABELS
+======================================================================
+
+
+Calculating dissimilarity scores (all cells)...
+
+Top 10 TFs by MinMax dissimilarity score:
+  Zfp950: 0.6234
+  Nfat5: 0.6198
+  Twist2: 0.6087
+  Esr1: 0.6077
+  Tead1: 0.5861
+  Etv6: 0.5816
+  Runx1: 0.5729
+  Tcf7l2: 0.5686
+  Arid1b: 0.5686
+  Trps1: 0.5588</code></pre>
+</div>
+</div>
+</section>
+<section id="tf-weight-barplots" class="level3">
+<h3 class="anchored" data-anchor-id="tf-weight-barplots">TF Weight Barplots</h3>
+<p>Visualize regulatory weights for transcription factors across target genes.</p>
+<div id="cell-21" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot TF weights for top TFs</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> viz.plot_tf_weights(</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    tf_names <span class="op">=</span> top_tfs,  <span class="co"># TFs to plot</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    top_n_targets<span class="op">=</span><span class="dv">30</span>, <span class="co"># Number of top targets to display ordered by mean absolute weight</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    r2_threshold <span class="op">=</span> <span class="fl">0.7</span>, <span class="co"># Only include targets with R² above this threshold</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    grid_layout<span class="op">=</span>(<span class="dv">2</span>,<span class="dv">2</span>),</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    save <span class="op">=</span> <span class="va">True</span>,</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    filename<span class="op">=</span><span class="st">"Top_TF_weights_barplot.pdf"</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+======================================================================
+PLOTTING TF WEIGHT BARPLOTS
+======================================================================
+
+Plotting 10 tfs...
+Multi-page mode: 2x2 per page (3 pages)
+  [1] Processing Zfp950...
+  [1] Processing Nfat5...
+  [1] Processing Twist2...
+  [1] Processing Esr1...
+Showing first 2 pages preview...</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Tutorial_SimiCPipeline_visualization_files/figure-html/cell-10-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [2] Processing Tead1...
+  [2] Processing Etv6...
+  [2] Processing Runx1...
+  [2] Processing Tcf7l2...
+Showing first 2 pages preview...</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Tutorial_SimiCPipeline_visualization_files/figure-html/cell-10-output-4.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [3] Processing Arid1b...
+  [3] Processing Trps1...
+
+✓ Saved 10 tfs to SimiCExampleRun/KPB25L/Tumor/outputSimic/figures/experiment_tumor/Top_TF_weights_barplot.pdf</code></pre>
+</div>
+</div>
+<p>If you wish to generate barplots for all your TFs set <code>tf_names</code>to <code>None</code>. TFs will be plotted in alphabetical order.</p>
+<div id="cell-23" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> viz.plot_tf_weights(</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    tf_names <span class="op">=</span> <span class="va">None</span>, <span class="co"># Plot all TFs </span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    top_n_targets<span class="op">=</span><span class="dv">30</span>,</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    save<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    grid_layout <span class="op">=</span> (<span class="dv">4</span>,<span class="dv">1</span>), <span class="co"># Define the grid layout (rows, columns) per pdf page</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    r2_threshold <span class="op">=</span> <span class="fl">0.7</span>,</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    filename<span class="op">=</span><span class="st">"ALL_TF_weights_barplot_grid.pdf"</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+======================================================================
+PLOTTING TF WEIGHT BARPLOTS
+======================================================================
+
+Plotting 100 tfs...
+Multi-page mode: 4x1 per page (25 pages)
+Generating all tf plots...
+Showing first 2 pages preview...</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Tutorial_SimiCPipeline_visualization_files/figure-html/cell-11-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Showing first 2 pages preview...</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Tutorial_SimiCPipeline_visualization_files/figure-html/cell-11-output-4.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+✓ Saved 100 tfs to SimiCExampleRun/KPB25L/Tumor/outputSimic/figures/experiment_tumor/ALL_TF_weights_barplot_grid.pdf</code></pre>
+</div>
+</div>
+<p>Note that you can also select the labels (phenotypes) to plot.</p>
+<div id="cell-25" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> viz.plot_tf_weights(</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    tf_names<span class="op">=</span><span class="st">"Tead1"</span>,  <span class="co"># TFs to plot</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    labels <span class="op">=</span> [<span class="dv">0</span>,<span class="dv">3</span>], <span class="co"># Specify which conditions to plot</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    top_n_targets<span class="op">=</span><span class="dv">10</span>, <span class="co"># Number of top targets to display ordered by mean absolute weight</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    grid_layout <span class="op">=</span> <span class="va">None</span>, <span class="co"># No grid layout, single plot</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    r2_threshold <span class="op">=</span> <span class="fl">0.7</span>, <span class="co"># Only include targets with R² above this threshold</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    save <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+======================================================================
+PLOTTING TF WEIGHT BARPLOTS
+======================================================================
+
+Plotting 1 tfs...
+Single page mode: 1 rows x 1 col
+  [1] Processing Tead1...</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Tutorial_SimiCPipeline_visualization_files/figure-html/cell-12-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="target-gene-weight-barplots" class="level3">
+<h3 class="anchored" data-anchor-id="target-gene-weight-barplots">Target Gene Weight Barplots</h3>
+<p>Visualize which TFs regulate specific target genes. In this case all the TFs that regulate the target will be displayed. Similar to <code>plot_tf_weights</code> you can customize the grid, layout, the labels and threshold.</p>
+<div id="cell-27" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example target genes - replace with genes of interest</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>target_genes <span class="op">=</span> [<span class="st">'Kmt2e'</span>, <span class="st">'Pdgfra'</span>, <span class="st">"Mdm2"</span>, <span class="st">'Bcl2'</span>,<span class="st">'Rad50'</span>,<span class="st">'Rad51'</span>,<span class="st">'Brca1'</span>,<span class="st">'Brca2'</span>]</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot target weights</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> viz.plot_target_weights(</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    target_names<span class="op">=</span>target_genes,</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    labels <span class="op">=</span> [<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>],</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    r2_threshold <span class="op">=</span> <span class="fl">0.7</span>, <span class="co"># Will filter the targets if they are </span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>    grid_layout <span class="op">=</span> <span class="va">None</span>,</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>    save<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>    filename<span class="op">=</span><span class="st">"selected_target_weights_barplot.pdf"</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+======================================================================
+PLOTTING TARGET WEIGHT BARPLOTS
+======================================================================
+
+Plotting 7 targets...
+Single page mode: 7 rows x 1 col
+  [1] Processing Kmt2e...
+  [1] Processing Pdgfra...
+  [1] Processing Bcl2...
+  [1] Processing Rad50...
+  [1] Processing Rad51...
+  [1] Processing Brca1...
+  [1] Processing Brca2...
+
+✓ Saved 7 targets to SimiCExampleRun/KPB25L/Tumor/outputSimic/figures/experiment_tumor/selected_target_weights_barplot.pdf</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Tutorial_SimiCPipeline_visualization_files/figure-html/cell-13-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Again, you can plot all the targets using:</p>
+<div id="cell-29" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> viz.plot_target_weights(</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    target_names <span class="op">=</span> <span class="va">None</span>, <span class="co"># Plot all targets</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    grid_layout <span class="op">=</span> (<span class="dv">4</span>,<span class="dv">1</span>),</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    save<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    r2_threshold <span class="op">=</span> <span class="fl">0.9</span>,</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    filename<span class="op">=</span><span class="st">"ALL_TARGET_weights_barplot_grid.pdf"</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+======================================================================
+PLOTTING TARGET WEIGHT BARPLOTS
+======================================================================
+
+Plotting 1000 targets...
+Multi-page mode: 4x1 per page (250 pages)
+Generating all target plots...
+Showing first 2 pages preview...</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Tutorial_SimiCPipeline_visualization_files/figure-html/cell-14-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Showing first 2 pages preview...</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Tutorial_SimiCPipeline_visualization_files/figure-html/cell-14-output-4.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+✓ Saved 1000 targets to SimiCExampleRun/KPB25L/Tumor/outputSimic/figures/experiment_tumor/ALL_TARGET_weights_barplot_grid.pdf</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="step-3-auc-distribution-visualizations" class="level2">
+<h2 class="anchored" data-anchor-id="step-3-auc-distribution-visualizations">Step 3: AUC Distribution Visualizations</h2>
+<section id="basic-auc-distributions" class="level3">
+<h3 class="anchored" data-anchor-id="basic-auc-distributions">Basic AUC Distributions</h3>
+<p>Plot TF activity score distributions with filled density curves.</p>
+<div id="cell-31" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot AUC distributions for top TFs with filled density</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> viz.plot_auc_distributions(</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    tf_names<span class="op">=</span>top_tfs[<span class="dv">0</span>:<span class="dv">4</span>],</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    labels<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>],</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    grid_layout <span class="op">=</span> <span class="va">None</span>,</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    fill<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>    alpha<span class="op">=</span><span class="fl">0.6</span>,</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>    bw_adjust<span class="op">=</span><span class="fl">0.5</span>,</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>    save<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>    filename<span class="op">=</span><span class="st">"AUC_distributions_filled.pdf"</span></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"✓ Filled AUC distribution plots created"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+======================================================================
+PLOTTING AUC DISTRIBUTIONS
+======================================================================
+
+Comparing labels [0, 1, 2, 3].
+Plotting 4 TFs...
+Single page mode: 2 rows x 2 cols (all 4 TFs on one page)
+  [1/4] Processing Zfp950...
+  [2/4] Processing Nfat5...
+  [3/4] Processing Twist2...
+  [4/4] Processing Esr1...
+
+✓ Saved 4 TFs to SimiCExampleRun/KPB25L/Tumor/outputSimic/figures/experiment_tumor/AUC_distributions_filled.pdf
+Showing first 2 pages preview...</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Tutorial_SimiCPipeline_visualization_files/figure-html/cell-15-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>✓ Filled AUC distribution plots created</code></pre>
+</div>
+</div>
+</section>
+<section id="auc-distribution-variations" class="level3">
+<h3 class="anchored" data-anchor-id="auc-distribution-variations">AUC Distribution Variations</h3>
+<p>Explore different visualization styles for detailed analysis.</p>
+<div id="cell-33" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Smooth, lightly filled density curves</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>viz.plot_auc_distributions(</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    tf_names<span class="op">=</span>top_tfs[<span class="dv">0</span>:<span class="dv">2</span>],</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    labels<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>],</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    grid_layout<span class="op">=</span>(<span class="dv">2</span>,<span class="dv">1</span>),</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    fill<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>    rug<span class="op">=</span><span class="va">True</span>, <span class="co"># Add rug plot at bottom</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>    alpha<span class="op">=</span><span class="fl">0.3</span>,  <span class="co"># Less intense color</span></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>    bw_adjust<span class="op">=</span><span class="fl">1.0</span>,  <span class="co"># Smoother curves</span></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>    save<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>    filename<span class="op">=</span><span class="st">"AUC_distributions_smooth.pdf"</span></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+======================================================================
+PLOTTING AUC DISTRIBUTIONS
+======================================================================
+
+Comparing labels [0, 1, 2, 3].
+Plotting 2 TFs...
+Multi-page mode: 2 rows x 1 cols per page (1 pages)
+  [1/2] Processing Zfp950...
+  [2/2] Processing Nfat5...</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Tutorial_SimiCPipeline_visualization_files/figure-html/cell-16-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+✓ Saved 2 TFs to SimiCExampleRun/KPB25L/Tumor/outputSimic/figures/experiment_tumor/AUC_distributions_smooth.pdf</code></pre>
+</div>
+</div>
+<div id="cell-34" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Unfilled line plots showing fine details</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>viz.plot_auc_distributions(</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    tf_names<span class="op">=</span>top_tfs[<span class="dv">0</span>:<span class="dv">2</span>],</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    labels<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">3</span>], <span class="co"># Only 2 labels</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>    grid_layout<span class="op">=</span>(<span class="dv">1</span>,<span class="dv">2</span>),</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>    fill<span class="op">=</span><span class="va">False</span>,  <span class="co"># Line plot only</span></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>    bw_adjust<span class="op">=</span><span class="fl">0.3</span>,  <span class="co"># Less smooth - shows detail</span></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>    save<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>    filename<span class="op">=</span><span class="st">"AUC_distributions_detailed.pdf"</span></span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+======================================================================
+PLOTTING AUC DISTRIBUTIONS
+======================================================================
+
+Comparing labels [0, 3].
+Plotting 2 TFs...
+Multi-page mode: 1 rows x 2 cols per page (1 pages)
+  [1/2] Processing Zfp950...
+  [2/2] Processing Nfat5...</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Tutorial_SimiCPipeline_visualization_files/figure-html/cell-17-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+✓ Saved 2 TFs to SimiCExampleRun/KPB25L/Tumor/outputSimic/figures/experiment_tumor/AUC_distributions_detailed.pdf</code></pre>
+</div>
+</div>
+</section>
+<section id="cumulative-activity-scores-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="cumulative-activity-scores-distribution">Cumulative Activity Scores distribution</h3>
+<p>Sorted by activity scores and calculates EDF AUC</p>
+<div id="cell-36" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>viz.plot_auc_cumulative(</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>    tf_names<span class="op">=</span>top_tfs[<span class="dv">0</span>:<span class="dv">4</span>],</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>    grid_layout<span class="op">=</span>(<span class="dv">2</span>,<span class="dv">2</span>),</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>    rug <span class="op">=</span> <span class="va">True</span>, <span class="co"># No rug plot</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>    save<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>    filename<span class="op">=</span><span class="st">"AUC_cumulative.pdf"</span></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+======================================================================
+PLOTTING AUC CUMULATIVE DISTRIBUTIONS
+======================================================================
+
+Comparing labels [0, 1, 2, 3].
+Plotting 4 TFs...
+Multi-page mode: 2 rows x 2 cols per page (1 pages)
+  [1/4] Processing Zfp950...
+  [2/4] Processing Nfat5...
+  [3/4] Processing Twist2...
+  [4/4] Processing Esr1...</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Tutorial_SimiCPipeline_visualization_files/figure-html/cell-18-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+✓ Saved 4 TFs to SimiCExampleRun/KPB25L/Tumor/outputSimic/figures/experiment_tumor/AUC_cumulative.pdf</code></pre>
+</div>
+</div>
+<p>You can extract the AUC metrics with the following function.</p>
+<div id="cell-38" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>viz.calculate_ecdf_auc(top_tfs[<span class="dv">0</span>:<span class="dv">4</span>], percentile <span class="op">=</span> <span class="fl">0.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Control_ecdf_auc</th>
+<th data-quarto-table-cell-role="th">Control_auc50</th>
+<th data-quarto-table-cell-role="th">Control_x_at_p50</th>
+<th data-quarto-table-cell-role="th">PD-L1_ecdf_auc</th>
+<th data-quarto-table-cell-role="th">PD-L1_auc50</th>
+<th data-quarto-table-cell-role="th">PD-L1_x_at_p50</th>
+<th data-quarto-table-cell-role="th">DAC_ecdf_auc</th>
+<th data-quarto-table-cell-role="th">DAC_auc50</th>
+<th data-quarto-table-cell-role="th">DAC_x_at_p50</th>
+<th data-quarto-table-cell-role="th">Combination_ecdf_auc</th>
+<th data-quarto-table-cell-role="th">Combination_auc50</th>
+<th data-quarto-table-cell-role="th">Combination_x_at_p50</th>
+<th data-quarto-table-cell-role="th">delta_ecdf_auc</th>
+<th data-quarto-table-cell-role="th">delta_auc50</th>
+<th data-quarto-table-cell-role="th">delta_x_at_p50</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">TF</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Zfp950</th>
+<td>0.486935</td>
+<td>0.020743</td>
+<td>0.513637</td>
+<td>0.671141</td>
+<td>0.011903</td>
+<td>0.306247</td>
+<td>0.597880</td>
+<td>0.022069</td>
+<td>0.401069</td>
+<td>0.692694</td>
+<td>0.016730</td>
+<td>0.294044</td>
+<td>0.205759</td>
+<td>0.010166</td>
+<td>0.219593</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Nfat5</th>
+<td>0.548512</td>
+<td>0.020755</td>
+<td>0.460207</td>
+<td>0.459647</td>
+<td>0.024065</td>
+<td>0.550666</td>
+<td>0.596980</td>
+<td>0.008749</td>
+<td>0.398526</td>
+<td>0.511656</td>
+<td>0.007203</td>
+<td>0.480327</td>
+<td>0.137333</td>
+<td>0.016862</td>
+<td>0.152140</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Twist2</th>
+<td>0.593375</td>
+<td>0.014428</td>
+<td>0.412265</td>
+<td>0.594367</td>
+<td>0.022737</td>
+<td>0.409429</td>
+<td>0.753390</td>
+<td>0.046872</td>
+<td>0.184750</td>
+<td>0.503674</td>
+<td>0.106177</td>
+<td>0.529341</td>
+<td>0.249716</td>
+<td>0.091749</td>
+<td>0.344591</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Esr1</th>
+<td>0.521121</td>
+<td>0.033058</td>
+<td>0.492635</td>
+<td>0.570840</td>
+<td>0.039519</td>
+<td>0.405646</td>
+<td>0.567069</td>
+<td>0.031456</td>
+<td>0.409509</td>
+<td>0.878789</td>
+<td>0.012796</td>
+<td>0.059880</td>
+<td>0.357669</td>
+<td>0.026723</td>
+<td>0.432755</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="step-4-dissimilarity-heatmap" class="level2">
+<h2 class="anchored" data-anchor-id="step-4-dissimilarity-heatmap">Step 4: Dissimilarity Heatmap</h2>
+<p>Visualize regulatory dissimilarity across all TFs.</p>
+<div id="cell-40" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot dissimilarity heatmap for top TFs</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> viz.plot_dissimilarity_heatmap(</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>    labels<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>],</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>    top_n_tfs<span class="op">=</span><span class="dv">20</span>,</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>    save<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>    filename<span class="op">=</span><span class="st">"dissimilarity_heatmap.pdf"</span></span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"✓ Dissimilarity heatmap created"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+======================================================================
+PLOTTING DISSIMILARITY HEATMAP
+======================================================================
+
+✓ Saved to SimiCExampleRun/KPB25L/Tumor/outputSimic/figures/experiment_tumor/dissimilarity_heatmap.pdf
+✓ Dissimilarity heatmap created</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Tutorial_SimiCPipeline_visualization_files/figure-html/cell-20-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>If you want to explore the regulatory dynamics accross phenotypes in different cell groups ( Cell types, subsets) you can add the metadata info to the function <code>plot_dissimilarity_heatmap</code></p>
+<div id="cell-42" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>project_dir <span class="op">=</span> <span class="st">"./SimiCExampleRun/KPB25L/Tumor"</span></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>auc_collected_file <span class="op">=</span> <span class="st">"experiment_tumor_L1_0.01_L2_0.001_wAUC_matrices_filtered_BIC_collected.csv"</span></span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>cell_ids <span class="op">=</span> pd.read_csv(project_dir <span class="op">+</span> <span class="st">"/outputSimic/matrices/experiment_tumor/"</span> <span class="op">+</span> auc_collected_file, index_col<span class="op">=</span><span class="dv">0</span>).index.to_list()</span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>obs_meta <span class="op">=</span> pd.read_csv(<span class="st">"./data/metadata.tsv"</span>, sep <span class="op">=</span> <span class="st">"</span><span class="ch">\t</span><span class="st">"</span>, index_col<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>obs_meta <span class="op">=</span> obs_meta.loc[cell_ids] <span class="co"># Subset to cells in the project</span></span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>obs_meta.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">sample</th>
+<th data-quarto-table-cell-role="th">treatment</th>
+<th data-quarto-table-cell-role="th">cell_line</th>
+<th data-quarto-table-cell-role="th">final_annotation</th>
+<th data-quarto-table-cell-role="th">final_annotation_functional</th>
+<th data-quarto-table-cell-role="th">nn_majority_label</th>
+<th data-quarto-table-cell-role="th">nn_majority_frac</th>
+<th data-quarto-table-cell-role="th">flag_misplaced</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">cell</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">01_01_28__s1</th>
+<td>KPB25L_control</td>
+<td>control</td>
+<td>KPB25L</td>
+<td>Cancer cells</td>
+<td>Proliferating cells</td>
+<td>Proliferating cells</td>
+<td>1.0</td>
+<td>False</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">01_01_62__s1</th>
+<td>KPB25L_control</td>
+<td>control</td>
+<td>KPB25L</td>
+<td>Cancer cells</td>
+<td>Basal-like</td>
+<td>Basal-like</td>
+<td>0.9</td>
+<td>False</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">01_02_38__s1</th>
+<td>KPB25L_control</td>
+<td>control</td>
+<td>KPB25L</td>
+<td>Cancer cells</td>
+<td>Basal-like</td>
+<td>Basal-like</td>
+<td>1.0</td>
+<td>False</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">01_02_54__s1</th>
+<td>KPB25L_control</td>
+<td>control</td>
+<td>KPB25L</td>
+<td>Cancer cells</td>
+<td>Proliferating cells</td>
+<td>Proliferating cells</td>
+<td>1.0</td>
+<td>False</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">01_02_81__s1</th>
+<td>KPB25L_control</td>
+<td>control</td>
+<td>KPB25L</td>
+<td>Cancer cells</td>
+<td>Basal-like</td>
+<td>Basal-like</td>
+<td>1.0</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="cell-43" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate a dictionary with the cell groupings based on the metadata column of interest</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>cell_groups <span class="op">=</span> {}</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>grouping_column <span class="op">=</span> <span class="st">'final_annotation_functional'</span>  </span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> group <span class="kw">in</span> obs_meta[grouping_column].unique():</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(group)</span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>    cell_groups[group] <span class="op">=</span> obs_meta[obs_meta[grouping_column] <span class="op">==</span> group].index.tolist()    </span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>    </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Proliferating cells
+Basal-like</code></pre>
+</div>
+</div>
+<div id="cell-44" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> viz.plot_dissimilarity_heatmap(</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>    labels<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span> , <span class="dv">3</span>],</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>    cell_groups<span class="op">=</span>cell_groups, <span class="co"># Add cell groupings to the heatmap</span></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>    top_n_tfs<span class="op">=</span><span class="dv">20</span>,</span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>    sort_by <span class="op">=</span> <span class="st">"mean_score"</span>, <span class="co"># Can be "mean_score" or any group in cell groups</span></span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>    save<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>    filename<span class="op">=</span><span class="st">"dissimilarity_heatmap2.pdf"</span></span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+======================================================================
+PLOTTING DISSIMILARITY HEATMAP
+======================================================================
+
+✓ Saved to SimiCExampleRun/KPB25L/Tumor/outputSimic/figures/experiment_tumor/dissimilarity_heatmap2.pdf</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Tutorial_SimiCPipeline_visualization_files/figure-html/cell-23-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="step-5-summary-statistics-visualization" class="level2">
+<h2 class="anchored" data-anchor-id="step-5-summary-statistics-visualization">Step 5: Summary Statistics Visualization</h2>
+<p>Create a comprehensive overview of AUC score distributions.</p>
+<div id="cell-46" class="cell" data-execution_count="23">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>viz.plot_auc_summary_statistics(labels<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>], save<span class="op">=</span><span class="va">True</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+======================================================================
+PLOTTING AUC SUMMARY STATISTICS
+======================================================================
+
+Label Control: 623900 AUC values
+Label PD-L1: 496400 AUC values
+Label DAC: 589500 AUC values
+Label Combination: 430416 AUC values
+✓ Saved to SimiCExampleRun/KPB25L/Tumor/outputSimic/figures/experiment_tumor/experiment_tumor_AUC_summary_statistics.pdf</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="23">
+<div>
+<figure class="figure">
+<p><img src="Tutorial_SimiCPipeline_visualization_files/figure-html/cell-24-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-47" class="cell" data-execution_count="21">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>viz.plot_auc_statistics_table(save<span class="op">=</span><span class="va">True</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+======================================================================
+PLOTTING AUC STATISTICS TABLE
+======================================================================
+
+Label Control: 623900 AUC values
+Label PD-L1: 496400 AUC values
+Label DAC: 589500 AUC values
+Label Combination: 430416 AUC values
+✓ Saved to SimiCExampleRun/KPB25L/Tumor/outputSimic/figures/experiment_tumor/experiment_tumor_AUC_statistics_table.pdf</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="21">
+<div>
+<figure class="figure">
+<p><img src="Tutorial_SimiCPipeline_visualization_files/figure-html/cell-25-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="step-6-umap-integration-optional" class="level2">
+<h2 class="anchored" data-anchor-id="step-6-umap-integration-optional">Step 6: UMAP Integration (Optional)</h2>
+<p>If you have an AnnData object with UMAP coordinates, you can visualize single cell TF activity on the embeddings using the <code>viz.get_TF_auc()</code> to extract selected TF activity scores in a pd.DataFrame format (see example below).</p>
+<p>Alternatively, if you are more confortable with Seurat/SingleCellExperiment (R world) you can easily incorporate these activity scores in the metadata.</p>
+<p>A complete matrix for all TFs was automatically saved in when you run <code>SimiCPipeline</code>.</p>
+<pre><code>    matrices/
+        └── experiment_tumor/
+            └── experiment_tumor_L1_0.01_L2_0.001_wAUC_matrices_filtered_BIC_collected.csv</code></pre>
+<div id="cell-49" class="cell" data-execution_count="43">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scanpy <span class="im">as</span> sc</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> simicpipeline</span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Load your AnnData object</span></span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> simicpipeline.load_from_anndata(<span class="st">'./data/DAC_aPDL1_seurat_annotated.h5ad'</span>)</span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>adata_subset <span class="op">=</span> adata.copy()</span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>adata_subset <span class="op">=</span> adata_subset[adata_subset.obs[<span class="st">"final_annotation_functional"</span>].isin([<span class="st">'Proliferating cells'</span>,<span class="st">'Basal-like'</span>])].copy()</span>
+<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a>adata_subset <span class="op">=</span> adata_subset[adata_subset.obs[<span class="st">"cellLine"</span>] <span class="op">==</span> <span class="st">"KPB25L"</span>].copy()</span>
+<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(adata_subset)</span>
+<span id="cb59-10"><a href="#cb59-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-11"><a href="#cb59-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 1. Extract auc scores for specific TFs</span></span>
+<span id="cb59-12"><a href="#cb59-12" aria-hidden="true" tabindex="-1"></a>tf_names <span class="op">=</span> [<span class="st">"Bnc2"</span>, <span class="st">"Runx2"</span>]</span>
+<span id="cb59-13"><a href="#cb59-13" aria-hidden="true" tabindex="-1"></a>activity_scores <span class="op">=</span> viz.get_TF_auc(TF_name<span class="op">=</span> tf_names, stacked<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb59-14"><a href="#cb59-14" aria-hidden="true" tabindex="-1"></a>col_names <span class="op">=</span> [tf <span class="op">+</span> <span class="st">"_AS"</span> <span class="cf">for</span> tf <span class="kw">in</span> tf_names]</span>
+<span id="cb59-15"><a href="#cb59-15" aria-hidden="true" tabindex="-1"></a>non_tf_cols <span class="op">=</span> activity_scores.columns.difference(tf_names) </span>
+<span id="cb59-16"><a href="#cb59-16" aria-hidden="true" tabindex="-1"></a>col_names.extend(<span class="bu">list</span>(non_tf_cols))</span>
+<span id="cb59-17"><a href="#cb59-17" aria-hidden="true" tabindex="-1"></a>activity_scores.columns <span class="op">=</span> col_names</span>
+<span id="cb59-18"><a href="#cb59-18" aria-hidden="true" tabindex="-1"></a><span class="co"># print(activity_scores.head())</span></span>
+<span id="cb59-19"><a href="#cb59-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-20"><a href="#cb59-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 2: Check if all indices in activity_scores are in adata.obs</span></span>
+<span id="cb59-21"><a href="#cb59-21" aria-hidden="true" tabindex="-1"></a>missing_indices <span class="op">=</span> activity_scores.index.difference(adata.obs.index)</span>
+<span id="cb59-22"><a href="#cb59-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-23"><a href="#cb59-23" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">len</span>(missing_indices) <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb59-24"><a href="#cb59-24" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Warning: </span><span class="sc">{</span><span class="bu">len</span>(missing_indices)<span class="sc">}</span><span class="ss"> indices in activity_scores are NOT in adata.obs"</span>)</span>
+<span id="cb59-25"><a href="#cb59-25" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Missing indices:"</span>, missing_indices.tolist())</span>
+<span id="cb59-26"><a href="#cb59-26" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb59-27"><a href="#cb59-27" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"✓ All indices in activity_scores are found in adata.obs"</span>)</span>
+<span id="cb59-28"><a href="#cb59-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb59-29"><a href="#cb59-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 3: Add activity scores to AnnData object metadata</span></span>
+<span id="cb59-30"><a href="#cb59-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure the indices of `activity_scores` match the `adata.obs` index</span></span>
+<span id="cb59-31"><a href="#cb59-31" aria-hidden="true" tabindex="-1"></a>adata_subset.obs <span class="op">=</span> adata_subset.obs.join(activity_scores)</span>
+<span id="cb59-32"><a href="#cb59-32" aria-hidden="true" tabindex="-1"></a>adata_subset.obs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>AnnData object with n_obs × n_vars = 21490 × 36774
+    obs: 'orig.ident', 'nCount_RNA', 'nFeature_RNA', 'sample', 'species', 'gene_count', 'tscp_count', 'mread_count', 'bc1_wind', 'bc2_wind', 'bc3_wind', 'bc1_well', 'bc2_well', 'bc3_well', 'treatment', 'cellLine', 'percent.mt', 'percent.rb', 'percent.hb', 'integrated_snn_res.0.095', 'seurat_clusters', 'sctype_custom', 'sctype_functional', 'sctype_SCsubtype', 'final_annotation', 'final_annotation_functional'
+    var: 'vf_vst_counts.1_mean', 'vf_vst_counts.1_variance', 'vf_vst_counts.1_variance.expected', 'vf_vst_counts.1_variance.standardized', 'vf_vst_counts.1_variable', 'vf_vst_counts.1_rank', 'vf_vst_counts.2_mean', 'vf_vst_counts.2_variance', 'vf_vst_counts.2_variance.expected', 'vf_vst_counts.2_variance.standardized', 'vf_vst_counts.2_variable', 'vf_vst_counts.2_rank', 'vf_vst_counts.3_mean', 'vf_vst_counts.3_variance', 'vf_vst_counts.3_variance.expected', 'vf_vst_counts.3_variance.standardized', 'vf_vst_counts.3_variable', 'vf_vst_counts.3_rank', 'vf_vst_counts.4_mean', 'vf_vst_counts.4_variance', 'vf_vst_counts.4_variance.expected', 'vf_vst_counts.4_variance.standardized', 'vf_vst_counts.4_variable', 'vf_vst_counts.4_rank', 'vf_vst_counts.5_mean', 'vf_vst_counts.5_variance', 'vf_vst_counts.5_variance.expected', 'vf_vst_counts.5_variance.standardized', 'vf_vst_counts.5_variable', 'vf_vst_counts.5_rank', 'vf_vst_counts.6_mean', 'vf_vst_counts.6_variance', 'vf_vst_counts.6_variance.expected', 'vf_vst_counts.6_variance.standardized', 'vf_vst_counts.6_variable', 'vf_vst_counts.6_rank', 'vf_vst_counts.7_mean', 'vf_vst_counts.7_variance', 'vf_vst_counts.7_variance.expected', 'vf_vst_counts.7_variance.standardized', 'vf_vst_counts.7_variable', 'vf_vst_counts.7_rank', 'vf_vst_counts.8_mean', 'vf_vst_counts.8_variance', 'vf_vst_counts.8_variance.expected', 'vf_vst_counts.8_variance.standardized', 'vf_vst_counts.8_variable', 'vf_vst_counts.8_rank', 'vf_vst_counts_mean', 'vf_vst_counts_variance', 'vf_vst_counts_variance.expected', 'vf_vst_counts_variance.standardized', 'vf_vst_counts_variable', 'vf_vst_counts_rank', 'var.features', 'var.features.rank'
+Retrieving AUC for TF: ['Bnc2', 'Runx2']
+✓ All indices in activity_scores are found in adata.obs</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="43">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">orig.ident</th>
+<th data-quarto-table-cell-role="th">nCount_RNA</th>
+<th data-quarto-table-cell-role="th">nFeature_RNA</th>
+<th data-quarto-table-cell-role="th">sample</th>
+<th data-quarto-table-cell-role="th">species</th>
+<th data-quarto-table-cell-role="th">gene_count</th>
+<th data-quarto-table-cell-role="th">tscp_count</th>
+<th data-quarto-table-cell-role="th">mread_count</th>
+<th data-quarto-table-cell-role="th">bc1_wind</th>
+<th data-quarto-table-cell-role="th">bc2_wind</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">seurat_clusters</th>
+<th data-quarto-table-cell-role="th">sctype_custom</th>
+<th data-quarto-table-cell-role="th">sctype_functional</th>
+<th data-quarto-table-cell-role="th">sctype_SCsubtype</th>
+<th data-quarto-table-cell-role="th">final_annotation</th>
+<th data-quarto-table-cell-role="th">final_annotation_functional</th>
+<th data-quarto-table-cell-role="th">Bnc2_AS</th>
+<th data-quarto-table-cell-role="th">Runx2_AS</th>
+<th data-quarto-table-cell-role="th">category</th>
+<th data-quarto-table-cell-role="th">label</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">19_02_08__s1</th>
+<td>snParseBS</td>
+<td>3862.0</td>
+<td>1768</td>
+<td>KPB25L_Combination</td>
+<td>GRCm39</td>
+<td>1768</td>
+<td>3862</td>
+<td>5716</td>
+<td>19</td>
+<td>2</td>
+<td>...</td>
+<td>0</td>
+<td>Cancer cells</td>
+<td>Proliferating cells</td>
+<td>Proliferating cells</td>
+<td>Cancer cells</td>
+<td>Proliferating cells</td>
+<td>0.377879</td>
+<td>0.423201</td>
+<td>3</td>
+<td>Combination</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">19_02_88__s1</th>
+<td>snParseBS</td>
+<td>17490.0</td>
+<td>4358</td>
+<td>KPB25L_Combination</td>
+<td>GRCm39</td>
+<td>4358</td>
+<td>17490</td>
+<td>26167</td>
+<td>19</td>
+<td>2</td>
+<td>...</td>
+<td>0</td>
+<td>Unknown</td>
+<td>Basal-like</td>
+<td>Basal-like</td>
+<td>Cancer cells</td>
+<td>Basal-like</td>
+<td>0.404524</td>
+<td>0.562691</td>
+<td>3</td>
+<td>Combination</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">19_03_02__s1</th>
+<td>snParseBS</td>
+<td>11969.0</td>
+<td>4256</td>
+<td>KPB25L_Combination</td>
+<td>GRCm39</td>
+<td>4256</td>
+<td>11969</td>
+<td>17970</td>
+<td>19</td>
+<td>3</td>
+<td>...</td>
+<td>0</td>
+<td>Cancer cells</td>
+<td>Proliferating cells</td>
+<td>Proliferating cells</td>
+<td>Cancer cells</td>
+<td>Proliferating cells</td>
+<td>0.394006</td>
+<td>0.418656</td>
+<td>3</td>
+<td>Combination</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">19_03_23__s1</th>
+<td>snParseBS</td>
+<td>12740.0</td>
+<td>4344</td>
+<td>KPB25L_Combination</td>
+<td>GRCm39</td>
+<td>4344</td>
+<td>12740</td>
+<td>19284</td>
+<td>19</td>
+<td>3</td>
+<td>...</td>
+<td>0</td>
+<td>Cancer cells</td>
+<td>Proliferating cells</td>
+<td>Proliferating cells</td>
+<td>Cancer cells</td>
+<td>Proliferating cells</td>
+<td>0.397667</td>
+<td>0.388375</td>
+<td>3</td>
+<td>Combination</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">19_03_58__s1</th>
+<td>snParseBS</td>
+<td>9432.0</td>
+<td>3769</td>
+<td>KPB25L_Combination</td>
+<td>GRCm39</td>
+<td>3769</td>
+<td>9432</td>
+<td>13858</td>
+<td>19</td>
+<td>3</td>
+<td>...</td>
+<td>0</td>
+<td>Cancer cells</td>
+<td>Proliferating cells</td>
+<td>Proliferating cells</td>
+<td>Cancer cells</td>
+<td>Proliferating cells</td>
+<td>0.349208</td>
+<td>0.470325</td>
+<td>3</td>
+<td>Combination</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">06_91_33__s8</th>
+<td>snParseBS</td>
+<td>13276.0</td>
+<td>4469</td>
+<td>KPB25L_control</td>
+<td>GRCm39</td>
+<td>4469</td>
+<td>13276</td>
+<td>19719</td>
+<td>6</td>
+<td>91</td>
+<td>...</td>
+<td>0</td>
+<td>Cancer cells</td>
+<td>Proliferating cells</td>
+<td>Proliferating cells</td>
+<td>Cancer cells</td>
+<td>Proliferating cells</td>
+<td>0.408736</td>
+<td>0.487791</td>
+<td>0</td>
+<td>control</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">06_92_32__s8</th>
+<td>snParseBS</td>
+<td>1971.0</td>
+<td>1418</td>
+<td>KPB25L_control</td>
+<td>GRCm39</td>
+<td>1418</td>
+<td>1971</td>
+<td>3035</td>
+<td>6</td>
+<td>92</td>
+<td>...</td>
+<td>0</td>
+<td>Unknown</td>
+<td>Basal-like</td>
+<td>Basal-like</td>
+<td>Cancer cells</td>
+<td>Basal-like</td>
+<td>0.484079</td>
+<td>0.359527</td>
+<td>0</td>
+<td>control</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">06_92_74__s8</th>
+<td>snParseBS</td>
+<td>10972.0</td>
+<td>3699</td>
+<td>KPB25L_control</td>
+<td>GRCm39</td>
+<td>3699</td>
+<td>10972</td>
+<td>16333</td>
+<td>6</td>
+<td>92</td>
+<td>...</td>
+<td>0</td>
+<td>Cancer cells</td>
+<td>Proliferating cells</td>
+<td>Proliferating cells</td>
+<td>Cancer cells</td>
+<td>Proliferating cells</td>
+<td>0.411149</td>
+<td>0.457182</td>
+<td>0</td>
+<td>control</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">06_92_89__s8</th>
+<td>snParseBS</td>
+<td>6205.0</td>
+<td>2592</td>
+<td>KPB25L_control</td>
+<td>GRCm39</td>
+<td>2592</td>
+<td>6205</td>
+<td>9053</td>
+<td>6</td>
+<td>92</td>
+<td>...</td>
+<td>0</td>
+<td>Unknown</td>
+<td>Basal-like</td>
+<td>Basal-like</td>
+<td>Cancer cells</td>
+<td>Basal-like</td>
+<td>0.471215</td>
+<td>0.590060</td>
+<td>0</td>
+<td>control</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">06_96_82__s8</th>
+<td>snParseBS</td>
+<td>9325.0</td>
+<td>3496</td>
+<td>KPB25L_control</td>
+<td>GRCm39</td>
+<td>3496</td>
+<td>9325</td>
+<td>13980</td>
+<td>6</td>
+<td>96</td>
+<td>...</td>
+<td>0</td>
+<td>Unknown</td>
+<td>Basal-like</td>
+<td>Basal-like</td>
+<td>Cancer cells</td>
+<td>Basal-like</td>
+<td>0.469899</td>
+<td>0.530313</td>
+<td>0</td>
+<td>control</td>
+</tr>
+</tbody>
+</table>
+
+<p>21490 rows × 30 columns</p>
+</div>
+</div>
+</div>
+<p>Run these steps from the <code>scanpy</code> <a href="https://scanpy.readthedocs.io/en/stable/tutorials/basics/clustering.html">tutorial</a> or use your processed object.</p>
+<div id="cell-51" class="cell" data-execution_count="44">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Normalizing to median total counts</span></span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>sc.pp.normalize_total(adata_subset)</span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Logarithmize the data</span></span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>sc.pp.log1p(adata_subset)</span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>sc.pp.highly_variable_genes(adata_subset, n_top_genes<span class="op">=</span><span class="dv">2000</span>, batch_key<span class="op">=</span><span class="st">"sample"</span>)</span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>sc.tl.pca(adata_subset)</span>
+<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a>sc.pp.neighbors(adata_subset, use_rep<span class="op">=</span><span class="st">'X_pca'</span>, n_neighbors<span class="op">=</span><span class="dv">15</span>)</span>
+<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a>sc.tl.umap(adata_subset)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-52" class="cell" data-execution_count="45">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot UMAP for Bnc2 activity scores</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(adata_subset, color<span class="op">=</span><span class="st">"Bnc2_AS"</span>, cmap<span class="op">=</span><span class="st">"viridis"</span>, size<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot UMAP for Runx2 activity scores</span></span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(adata_subset, color<span class="op">=</span><span class="st">"Runx2_AS"</span>, cmap<span class="op">=</span><span class="st">"plasma"</span>, size<span class="op">=</span><span class="dv">20</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Tutorial_SimiCPipeline_visualization_files/figure-html/cell-28-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Tutorial_SimiCPipeline_visualization_files/figure-html/cell-28-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="step-8-export-results" class="level2">
+<h2 class="anchored" data-anchor-id="step-8-export-results">Step 8: Export Results</h2>
+<p>You can easily save all the visualizations generated with the argument <code>save</code>= True and customize the name with <code>filename</code>. Furthermore, all plotting functions return a matplotlib.pyplot figure so you can manually save it.</p>
+</section>
+<section id="additional-functionalities" class="level2">
+<h2 class="anchored" data-anchor-id="additional-functionalities">Additional functionalities</h2>
+<section id="customize-label-names" class="level3">
+<h3 class="anchored" data-anchor-id="customize-label-names">Customize Label Names</h3>
+<p>You can access and change the labels and colors after initialization with the function <code>set_label_names()</code></p>
+<div id="cell-55" class="cell" data-execution_count="46">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set custom label names for better visualization</span></span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>viz.set_label_names(</span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>    p2assignment<span class="op">=</span>viz.project_dir <span class="op">/</span> <span class="st">"inputFiles/treatment_annotation.csv"</span>,</span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>    label_names<span class="op">=</span>{<span class="dv">0</span>: <span class="st">'Control'</span>, <span class="dv">1</span>: <span class="st">'PD-L1'</span>,<span class="dv">2</span>: <span class="st">'DAC'</span>,<span class="dv">3</span>: <span class="st">'Combination'</span>},</span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a>    colors<span class="op">=</span>{<span class="dv">0</span>: <span class="st">'#e0e0e0'</span>, <span class="dv">1</span>: <span class="st">'#a8c8ff'</span>, <span class="dv">2</span>: <span class="st">'#ffb6b6'</span>, <span class="dv">3</span>: <span class="st">'#c1a9e0'</span>})</span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"✓ Label names configured: </span><span class="sc">{</span>viz<span class="sc">.</span>label_names<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb63-8"><a href="#cb63-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"✓ Colors configured: </span><span class="sc">{</span>viz<span class="sc">.</span>colors<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Label names set: {0: 'Control', 1: 'PD-L1', 2: 'DAC', 3: 'Combination'}
+Label colors set: {0: '#e0e0e0', 1: '#a8c8ff', 2: '#ffb6b6', 3: '#c1a9e0'}
+✓ Label names configured: {0: 'Control', 1: 'PD-L1', 2: 'DAC', 3: 'Combination'}
+✓ Colors configured: {0: '#e0e0e0', 1: '#a8c8ff', 2: '#ffb6b6', 3: '#c1a9e0'}</code></pre>
+</div>
+</div>
+</section>
+<section id="set-up-file-paths" class="level3">
+<h3 class="anchored" data-anchor-id="set-up-file-paths">Set Up File Paths</h3>
+<p>Point the visualization to your pipeline results files. This is useful if you have old SImiC runs and want to take advantage of the visualization funcitonality.</p>
+<div id="cell-57" class="cell" data-execution_count="47">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>viz2 <span class="op">=</span> SimiCVisualization(</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>    project_dir<span class="op">=</span><span class="st">"./SimiCExampleRun/KPB25L/Tumor"</span>,</span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>    run_name<span class="op">=</span><span class="st">"experiment_tumor"</span>,</span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>    search <span class="op">=</span> <span class="va">False</span>,</span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>    lambda1<span class="op">=</span><span class="fl">0.1</span>,</span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a>    lambda2<span class="op">=</span><span class="fl">0.01</span>,</span>
+<span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a>    p2assignment<span class="op">=</span><span class="st">"./SimiCExampleRun/KPB25L/Tumor/inputFiles/treatment_annotation.cav"</span>,</span>
+<span id="cb65-8"><a href="#cb65-8" aria-hidden="true" tabindex="-1"></a>    label_names<span class="op">=</span>{<span class="dv">0</span>: <span class="st">'Control'</span>, <span class="dv">1</span>: <span class="st">'PD-L1'</span>,<span class="dv">2</span>: <span class="st">'DAC'</span>,<span class="dv">3</span>: <span class="st">'Combination'</span>},</span>
+<span id="cb65-9"><a href="#cb65-9" aria-hidden="true" tabindex="-1"></a>    colors<span class="op">=</span>{<span class="dv">0</span>: <span class="st">'#e0e0e0'</span>, <span class="dv">1</span>: <span class="st">'#a8c8ff'</span>, <span class="dv">2</span>: <span class="st">'#ffb6b6'</span>, <span class="dv">3</span>: <span class="st">'#c1a9e0'</span>}</span>
+<span id="cb65-10"><a href="#cb65-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb65-11"><a href="#cb65-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-12"><a href="#cb65-12" aria-hidden="true" tabindex="-1"></a>out_dir <span class="op">=</span> viz2.project_dir <span class="op">/</span> <span class="st">"outputSimic/matrices/"</span> <span class="op">/</span> viz2.run_name</span>
+<span id="cb65-13"><a href="#cb65-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-14"><a href="#cb65-14" aria-hidden="true" tabindex="-1"></a><span class="co"># If you're continuing from a previous run, set the paths</span></span>
+<span id="cb65-15"><a href="#cb65-15" aria-hidden="true" tabindex="-1"></a>viz2.set_paths_custom(</span>
+<span id="cb65-16"><a href="#cb65-16" aria-hidden="true" tabindex="-1"></a>    force <span class="op">=</span> <span class="va">True</span>,</span>
+<span id="cb65-17"><a href="#cb65-17" aria-hidden="true" tabindex="-1"></a>    p2df<span class="op">=</span>viz2.project_dir <span class="op">/</span> <span class="st">"inputFiles/expression_matrix.pickle"</span>,</span>
+<span id="cb65-18"><a href="#cb65-18" aria-hidden="true" tabindex="-1"></a>    p2assignment<span class="op">=</span>viz2.project_dir <span class="op">/</span> <span class="st">"inputFiles/treatment_annotation.cav"</span>,</span>
+<span id="cb65-19"><a href="#cb65-19" aria-hidden="true" tabindex="-1"></a>    p2tf<span class="op">=</span>viz2.project_dir <span class="op">/</span> <span class="st">"inputFiles/TF_list.csv"</span>,</span>
+<span id="cb65-20"><a href="#cb65-20" aria-hidden="true" tabindex="-1"></a>    p2simic_matrices<span class="op">=</span> out_dir <span class="op">/</span> <span class="st">"experiment_tumor_L1_0.1_L2_0.01_simic_matrices.pickle"</span>,</span>
+<span id="cb65-21"><a href="#cb65-21" aria-hidden="true" tabindex="-1"></a>    p2filtered_matrices <span class="op">=</span> out_dir <span class="op">/</span> <span class="st">"experiment_tumor_L1_0.1_L2_0.01_simic_matrices_filtered_BIC.pickle"</span>,</span>
+<span id="cb65-22"><a href="#cb65-22" aria-hidden="true" tabindex="-1"></a>    p2auc_raw<span class="op">=</span> out_dir <span class="op">/</span> <span class="st">"experiment_tumor_L1_0.1_L2_0.01_wAUC_matrices.pickle"</span>,</span>
+<span id="cb65-23"><a href="#cb65-23" aria-hidden="true" tabindex="-1"></a>    p2auc_filtered<span class="op">=</span> out_dir <span class="op">/</span> <span class="st">"experiment_tumor_L1_0.1_L2_0.01_wAUC_matrices_filtered_BIC.pickle"</span></span>
+<span id="cb65-24"><a href="#cb65-24" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Warning: Figures path already exists. Existing figures may be overwritten.
+Warning: No data found to determine labels.
+
+======================================================================
+SETTING CUSTOM PATHS
+======================================================================
+
+✓ Custom paths successfully set.
+
+======================================================================
+</code></pre>
+</div>
+</div>
+<div id="cell-58" class="cell" data-execution_count="48">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>viz2.available_results()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Available Results:
+✗ Ws_raw
+✗ Ws_filtered
+✗ auc_raw
+✗ auc_filtered
+
+======================================================================</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>This tutorial covered:</p>
+<p>✓ Creating visualization objects from <code>SimiCPipeline</code> results</p>
+<p>✓ Customizing label names for clarity and colors</p>
+<p>✓ Weight distribution visualizations (R², TF weights, target weights)</p>
+<p>✓ TF-specific network visualization</p>
+<p>✓ AUC score distributions with multiple visualization styles</p>
+<p>✓ Dissimilarity analysis across phenotypes and cell types</p>
+<p>✓ Summary statistics and comprehensive overviews</p>
+<p>✓ Optional UMAP visualization</p>
+<section id="generate-a-printed-summary-of-all-created-visualizations." class="level4">
+<h4 class="anchored" data-anchor-id="generate-a-printed-summary-of-all-created-visualizations.">Generate a printed summary of all created visualizations.</h4>
+<div id="cell-61" class="cell" data-execution_count="49">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co"># List all generated figures</span></span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>figure_files <span class="op">=</span> <span class="bu">sorted</span>(viz.figures_path.glob(<span class="st">'*.pdf'</span>))</span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span><span class="op">*</span><span class="dv">70</span>)</span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"VISUALIZATION SUMMARY"</span>)</span>
+<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span><span class="op">*</span><span class="dv">70</span>)</span>
+<span id="cb69-7"><a href="#cb69-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Generated </span><span class="sc">{</span><span class="bu">len</span>(figure_files)<span class="sc">}</span><span class="ss"> visualization files:"</span>)</span>
+<span id="cb69-8"><a href="#cb69-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Saved to: </span><span class="sc">{</span>viz<span class="sc">.</span>figures_path<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span>)</span>
+<span id="cb69-9"><a href="#cb69-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-10"><a href="#cb69-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, fig_file <span class="kw">in</span> <span class="bu">enumerate</span>(figure_files, <span class="dv">1</span>):</span>
+<span id="cb69-11"><a href="#cb69-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">. </span><span class="sc">{</span>fig_file<span class="sc">.</span>name<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb69-12"><a href="#cb69-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-13"><a href="#cb69-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span><span class="op">*</span><span class="dv">70</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+======================================================================
+VISUALIZATION SUMMARY
+======================================================================
+
+Generated 13 visualization files:
+
+Saved to: SimiCExampleRun/KPB25L/Tumor/outputSimic/figures/experiment_tumor
+
+1. ALL_TARGET_weights_barplot_grid.pdf
+2. ALL_TF_weights_barplot_grid.pdf
+3. AUC_cumulative.pdf
+4. AUC_distributions_detailed.pdf
+5. AUC_distributions_filled.pdf
+6. AUC_distributions_smooth.pdf
+7. R2_distribution.pdf
+8. Top_TF_weights_barplot.pdf
+9. dissimilarity_heatmap.pdf
+10. experiment_tumor_AUC_statistics_table.pdf
+11. experiment_tumor_AUC_summary_statistics.pdf
+12. experiment_tumor_network_Bnc2_heatmap.pdf
+13. selected_target_weights_barplot.pdf
+
+======================================================================</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="next-steps" class="level2">
+<h2 class="anchored" data-anchor-id="next-steps">Next Steps</h2>
+<ol type="1">
+<li><strong>Customize visualizations</strong>: Modify colors, styles, and layouts to match your publication requirements</li>
+<li><strong>Export figures</strong>: Save high-resolution PDFs suitable for manuscript submission with different layouts</li>
+<li><strong>Deep-dive analysis</strong>: Use pipeline methods to extract data for custom visualizations</li>
+<li><strong>Network analysis</strong>: Combine results with network analysis tools for interactive exploration</li>
+<li><strong>Biological validation</strong>: Cross-reference predicted regulons with experimental data</li>
+</ol>
+</section>
+<section id="additional-resources" class="level2">
+<h2 class="anchored" data-anchor-id="additional-resources">Additional Resources</h2>
+<ul>
+<li>Data preprocessing: <code>Tutorial_SimiCPipeline_preprocessing.ipynb</code></li>
+<li>Complete pipeline tutorial: <code>Tutorial_SimiCPipeline_full.ipynb</code></li>
+<li>API documentation: Check the SimiCPipeline and SimiCVisualization class docstrings</li>
+<li>Original publication: <a href="https://www.nature.com/articles/s42003-022-03319-7">Peng et al., Commun Biol 5, 351 (2022)</a></li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/RaghadShu\.github\.io\/SimiC-Suite\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>SimiC-Suite</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Built with Quarto</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

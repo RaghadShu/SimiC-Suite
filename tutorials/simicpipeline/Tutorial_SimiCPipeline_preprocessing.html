@@ -1,0 +1,1591 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>SimiC Preprocessing Pipeline Tutorial – SimiC-Suite</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-158031087360bce0ff56dc785ce39e06.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">SimiC-Suite</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../simicpipeline.html"> 
+<span class="menu-text">SimiCPipeline</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../simicviz.html"> 
+<span class="menu-text">SimiCviz</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../citation.html"> 
+<span class="menu-text">Citation</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#import-modules" id="toc-import-modules" class="nav-link" data-scroll-target="#import-modules">Import Modules</a></li>
+  <li><a href="#step-1.1-load-your-data" id="toc-step-1.1-load-your-data" class="nav-link" data-scroll-target="#step-1.1-load-your-data">Step 1.1: Load Your Data</a></li>
+  <li><a href="#step-1.2-initialize-magic-pipeline" id="toc-step-1.2-initialize-magic-pipeline" class="nav-link" data-scroll-target="#step-1.2-initialize-magic-pipeline">Step 1.2: Initialize MAGIC Pipeline</a></li>
+  <li><a href="#step-1.3-filter-cells-and-genes" id="toc-step-1.3-filter-cells-and-genes" class="nav-link" data-scroll-target="#step-1.3-filter-cells-and-genes">Step 1.3: Filter Cells and Genes</a></li>
+  <li><a href="#step-1.4-normalize-data" id="toc-step-1.4-normalize-data" class="nav-link" data-scroll-target="#step-1.4-normalize-data">Step 1.4: Normalize Data</a></li>
+  <li><a href="#step-1.5-run-magic-imputation" id="toc-step-1.5-run-magic-imputation" class="nav-link" data-scroll-target="#step-1.5-run-magic-imputation">Step 1.5: Run MAGIC Imputation</a></li>
+  <li><a href="#step-1.6-check-pipeline-status" id="toc-step-1.6-check-pipeline-status" class="nav-link" data-scroll-target="#step-1.6-check-pipeline-status">Step 1.6: Check Pipeline Status</a></li>
+  <li><a href="#part-2-experiment-setup-and-gene-selection" id="toc-part-2-experiment-setup-and-gene-selection" class="nav-link" data-scroll-target="#part-2-experiment-setup-and-gene-selection">Part 2: Experiment Setup and Gene Selection</a>
+  <ul class="collapse">
+  <li><a href="#step-2.1-load-imputed-data" id="toc-step-2.1-load-imputed-data" class="nav-link" data-scroll-target="#step-2.1-load-imputed-data">Step 2.1: Load Imputed Data</a></li>
+  <li><a href="#step-2.2-initialize-experiment-setup" id="toc-step-2.2-initialize-experiment-setup" class="nav-link" data-scroll-target="#step-2.2-initialize-experiment-setup">Step 2.2: Initialize Experiment Setup</a></li>
+  <li><a href="#step-2.3-calculate-mad-and-select-genes" id="toc-step-2.3-calculate-mad-and-select-genes" class="nav-link" data-scroll-target="#step-2.3-calculate-mad-and-select-genes">Step 2.3: Calculate MAD and Select Genes</a></li>
+  <li><a href="#step-2.4-subset-data-to-selected-genes" id="toc-step-2.4-subset-data-to-selected-genes" class="nav-link" data-scroll-target="#step-2.4-subset-data-to-selected-genes">Step 2.4: Subset Data to Selected Genes</a></li>
+  <li><a href="#step-2.5-save-experiment-files" id="toc-step-2.5-save-experiment-files" class="nav-link" data-scroll-target="#step-2.5-save-experiment-files">Step 2.5: Save Experiment Files</a></li>
+  <li><a href="#step-2.6-verify-saved-files" id="toc-step-2.6-verify-saved-files" class="nav-link" data-scroll-target="#step-2.6-verify-saved-files">Step 2.6: Verify Saved Files</a></li>
+  </ul></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a>
+  <ul class="collapse">
+  <li><a href="#output-directory-structure" id="toc-output-directory-structure" class="nav-link" data-scroll-target="#output-directory-structure">Output Directory Structure</a></li>
+  </ul></li>
+  <li><a href="#alternative-approach" id="toc-alternative-approach" class="nav-link" data-scroll-target="#alternative-approach">Alternative Approach</a></li>
+  <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps">Next steps:</a>
+  <ul class="collapse">
+  <li><a href="#final-notes" id="toc-final-notes" class="nav-link" data-scroll-target="#final-notes">Final Notes</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">SimiC Preprocessing Pipeline Tutorial</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<blockquote class="blockquote">
+<p><em>Author: Irene Marín-Goñi, PhD student - ML4BM group (CIMA University of Navarra)</em></p>
+</blockquote>
+<p>This notebook demonstrates how to preprocess single-cell RNA-seq data for SimiC analysis.</p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>This preprocessing tutorial covers: 1. Package installation and setup 2. MAGIC imputation pipeline 3. Gene selection and experiment setup 4. Preparing input files for SimiC</p>
+<p>For running SimiC analysis see <code>Tutorial_SimiCPipeline_full.ipynb</code></p>
+</section>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Before running SimiC, you need to: - Impute your scRNA-seq data. We recommend to use <a href="https://pypi.org/project/magic-impute/3.0.0/">MAGIC</a> and include a wrapper class <code>MagicPipeline</code> to ease the process. - Select top variable genes based on Median Absolute Deviation (MAD) or the genes of interest from which you want to infer the gene regulatory network. - Prepare input files in the correct format for SimiCPipeline.</p>
+<p>This tutorial shows you how to do all of this using the SimiC preprocessing modules.</p>
+</section>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<p>The easiest way to configure your environment is to follow the <code>README</code> instructions using <code>poetry</code> (or <code>Docker</code>).</p>
+<p>Required packages for this tutorial: - simicpipeline - anndata - pandas - numpy - os - pickle</p>
+<p>Internally simicpipeline also uses: - scipy - sklearn - scprep (in preprocessing) - magic-impute (in preprocessing)</p>
+</section>
+<section id="import-modules" class="level2">
+<h2 class="anchored" data-anchor-id="import-modules">Import Modules</h2>
+<p>First, import the necessary preprocessing modules.</p>
+<div id="cell-4" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(os.getcwd())</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(os.listdir())</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> simicpipeline </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"SimiC pipeline version: "</span>, {simicpipeline.__version__})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>/home/workdir
+['data']
+SimiC pipeline version:  {'0.1.0'}</code></pre>
+</div>
+</div>
+<p><a id="part1"></a> # Part 1: MAGIC Imputation Pipeline</p>
+<p>MAGIC (Markov Affinity-based Graph Imputation of Cells) is used to denoise and impute scRNA-seq data. <code>MagicPipeline</code> facilitates the steps described in <a href="&quot;https://magic.readthedocs.io/en/stable/tutorial.html&quot;">Magic Tutorial</a></p>
+</section>
+<section id="step-1.1-load-your-data" class="level2">
+<h2 class="anchored" data-anchor-id="step-1.1-load-your-data">Step 1.1: Load Your Data</h2>
+<p>Load your raw expression data. Note that <code>MacigPipeline</code> class expects AnnData format.</p>
+<p>Below you will see different examples on how to generate the AnnData object from different input files (including Seurat if you are more familiar with R)</p>
+<div class="alert alert-block alert-info">
+<p><em> <b>Note 1:</b> If you have already filtered and transformed your data but want to repeat following these steps, make sure the adata object has the raw counts in the <code>adata.raw.X</code> slot</em></p><em>
+</em></div><em>
+<div class="alert alert-block alert-info">
+<p><b>Note 2:</b> If you have already processed (inputed) your data you can jump to Part 2 Experiment Setup</p>
+</div>
+<section id="from-seurat" class="level4">
+<h4 class="anchored" data-anchor-id="from-seurat">From Seurat</h4>
+<p>If you have your data in a Seurat object (R package) the easiest approach is this:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(<span class="fu">data.frame</span>(<span class="at">Cells =</span> <span class="fu">colnames</span>(seurat_obj)), <span class="fu">file.path</span>(<span class="st">"/path/to/data/"</span>, <span class="st">"cell_ids.txt"</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">col.names =</span> <span class="cn">FALSE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(<span class="fu">data.frame</span>(<span class="at">Genes =</span> <span class="fu">rownames</span>(seurat_obj)), <span class="fu">file.path</span>(<span class="st">"/path/to/data/"</span>, <span class="st">"genes_ids.txt"</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">col.names =</span> <span class="cn">FALSE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(seurat_obj<span class="sc">@</span>metadata, <span class="fu">file.path</span>(<span class="st">"/path/to/data/"</span>, <span class="st">"metadata.csv"</span>), <span class="at">sep =</span> <span class="st">","</span>,<span class="at">row.names =</span> <span class="cn">TRUE</span>, <span class="at">col.names =</span> <span class="cn">TRUE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>m_raw <span class="ot">=</span> <span class="fu">GetAssayData</span>(seurat_obj, <span class="at">assay =</span> <span class="st">"RNA"</span>, <span class="at">layer =</span> <span class="st">"counts"</span>) <span class="co"># Take the raw counts</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>Matrix<span class="sc">::</span><span class="fu">writeMM</span>(m_raw, <span class="fu">paste0</span>(magic_path, <span class="st">"/singlecell_matrix.mtx"</span>)) <span class="co"># Save it in MatrixMarket format </span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Then follow the example code below.</p>
+<div id="cell-8" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Load your AnnData object here"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># # Example: Load from Matrix Market format</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> anndata <span class="im">as</span> ad</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># This will return a pd.DataFrame</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> simicpipeline.load_from_matrix_market( </span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    matrix_path<span class="op">=</span>Path(<span class="st">"./data/simic_matrix.mtx"</span>),</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    genes_path<span class="op">=</span>Path(<span class="st">"./data/simic_genes.txt"</span>),</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    cells_path<span class="op">=</span>Path(<span class="st">"./data/simic_cells.txt"</span>),</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    transpose<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    cells_index_name<span class="op">=</span><span class="st">"Cell"</span>,</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> ad.AnnData(X<span class="op">=</span>df.values, obs<span class="op">=</span>pd.DataFrame(index<span class="op">=</span>df.index), var<span class="op">=</span>pd.DataFrame(index<span class="op">=</span>df.columns))</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>obs_meta <span class="op">=</span> pd.read_csv(<span class="st">"./data/metadata.tsv"</span>, sep <span class="op">=</span> <span class="st">"</span><span class="ch">\t</span><span class="st">"</span>, index_col<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(obs_meta.shape)</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(obs_meta.head())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Load your AnnData object here
+(72650, 8)
+                             sample    treatment  cell_line  \
+cell                                                          
+43_01_92__s1  KPB25L-UV_Combination  Combination  KPB25L-UV   
+43_01_73__s1  KPB25L-UV_Combination  Combination  KPB25L-UV   
+43_01_94__s1  KPB25L-UV_Combination  Combination  KPB25L-UV   
+43_02_41__s1  KPB25L-UV_Combination  Combination  KPB25L-UV   
+43_02_56__s1  KPB25L-UV_Combination  Combination  KPB25L-UV   
+
+               final_annotation final_annotation_functional  \
+cell                                                          
+43_01_92__s1       Cancer cells         Proliferating cells   
+43_01_73__s1       Cancer cells                  Basal-like   
+43_01_94__s1       Cancer cells         Proliferating cells   
+43_02_41__s1  Endothelial cells           Endothelial cells   
+43_02_56__s1       Cancer cells                  Basal-like   
+
+                nn_majority_label  nn_majority_frac  flag_misplaced  
+cell                                                                 
+43_01_92__s1  Proliferating cells               1.0           False  
+43_01_73__s1           Basal-like               1.0           False  
+43_01_94__s1  Proliferating cells               1.0           False  
+43_02_41__s1    Endothelial cells               1.0           False  
+43_02_56__s1           Basal-like               0.9           False  </code></pre>
+</div>
+</div>
+<div class="alert alert-block alert-warning">
+<p><b>WARNING!!:</b> Make sure that the index of obs_meta matches the cell names in df.index. Otherwise it will lead to misalignment of metadata and expression data.</p>
+</div>
+<div id="cell-10" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Match the obs metadata index to the adata.obs_names</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>obs_meta <span class="op">=</span> obs_meta.loc[adata.obs_names]</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> ad.AnnData(adata.X, obs<span class="op">=</span>obs_meta, var<span class="op">=</span>adata.var)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># If your data is raw, you should set it properly in AnnData object</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>adata.raw <span class="op">=</span> adata.copy()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Alternative loading options</p>
+<div id="cell-12" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># print("Load your AnnData object here")</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># # Example: Load from CSV files</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># import pandas as pd</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># import anndata as ad</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># # This example assumes that in csv rows are cells and columns are genes</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># expression_data = pd.read_csv('path/to/expression_data.csv', index_col = 0) # Column 1 as cell IDs</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co"># # Match the observation metadata</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"># metadata = pd.read_csv('path/to/metadata.csv', index_col=0)</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co"># metadata = metadata.loc[expression_data.index]</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co"># adata = ad.AnnData(X=expression_data.values, obs=metadata)</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co"># # Example: Load from 10X format</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co"># adata = ad.read_10x_mtx('path/to/10x/directory')</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co"># # Example: Load from h5ad file using simicpipeline function</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co"># adata = simicpipeline.load_from_anndata('path/to/your/data.h5ad')</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co"># If your data is raw, you should set it properly with</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="co"># print(hasattr(adata, 'raw'))</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="co"># adata.raw = adata.copy()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-13" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>adata</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>AnnData object with n_obs × n_vars = 72650 × 36774
+    obs: 'sample', 'treatment', 'cell_line', 'final_annotation', 'final_annotation_functional', 'nn_majority_label', 'nn_majority_frac', 'flag_misplaced'</code></pre>
+</div>
+</div>
+</section>
+</em></section><em>
+<section id="step-1.2-initialize-magic-pipeline" class="level2">
+<h2 class="anchored" data-anchor-id="step-1.2-initialize-magic-pipeline">Step 1.2: Initialize MAGIC Pipeline</h2>
+<p>Create a MAGIC pipeline instance: - <code>input_data</code>: Your AnnData object. If you run the full pipline starting from raw counts they should be in <code>adata.raw.X</code> - <code>project_dir</code>: Project directory where <code>magic_output</code>dir will be created and files will be saved - <code>magic_output_file</code>: Filename for the imputed data (default: ‘magic_data_allcells_sqrt.pickle’) - <code>filtered</code>: Set to True if data is already filtered (low quality cells and genes) (default: False)</p>
+<div id="cell-15" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This command will initialize the MAGIC pipeline and generate the output directory if it does not exist</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> simicpipeline <span class="im">import</span> MagicPipeline</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>magic_pipeline <span class="op">=</span> MagicPipeline(</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    input_data<span class="op">=</span> adata,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    project_dir<span class="op">=</span><span class="st">'./SimiCExampleRun'</span>,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    magic_output_file<span class="op">=</span><span class="st">'magic_imputed.pickle'</span>,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    filtered<span class="op">=</span><span class="va">False</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(magic_pipeline)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Creating project directory: SimiCExampleRun
+MagicPipeline(
+  data = AnnData object with (n_obs × n_vars) = 72650 × 36774,
+  filtered = False,
+  imputed = False,
+  magic_data = None,
+  project_dir = 'SimiCExampleRun'
+)</code></pre>
+</div>
+</div>
+<div id="cell-16" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>magic_pipeline.print_project_info()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>SimiCExampleRun/
+└── magic_output/</code></pre>
+</div>
+</div>
+</section>
+<section id="step-1.3-filter-cells-and-genes" class="level2">
+<h2 class="anchored" data-anchor-id="step-1.3-filter-cells-and-genes">Step 1.3: Filter Cells and Genes</h2>
+Remove low-quality cells and lowly-expressed genes: - <code>min_cells_per_gene</code>: Minimum number of cells expressing a gene (default: 10) - <code>min_umis_per_cell</code>: Minimum total UMI counts per cell (default: 500)
+<div class="alert alert-block alert-info">
+<p><em><b>Note:</b> If your data was already filtered you can skip this step and set the flitered argument flag to <code>True</code> in the previous step.</em></p>
+</div>
+<div id="cell-18" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>magic_pipeline.filter_cells_and_genes(min_cells_per_gene <span class="op">=</span> <span class="dv">10</span>, min_umis_per_cell <span class="op">=</span> <span class="dv">500</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Filtering cells and genes...
+Before filtering: 72650 cells x 36774 genes
+Keeping 27837/36774 genes (75.70%)
+Keeping 72650/72650 cells (100.00%)
+All cells pass the filter!
+After filtering: 72650 cells x 27837 genes</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>MagicPipeline(
+  data = AnnData object with (n_obs × n_vars) = 72650 × 27837,
+  filtered = True,
+  imputed = False,
+  magic_data = None,
+  project_dir = 'SimiCExampleRun'
+)</code></pre>
+</div>
+</div>
+</section>
+<section id="step-1.4-normalize-data" class="level2">
+<h2 class="anchored" data-anchor-id="step-1.4-normalize-data">Step 1.4: Normalize Data</h2>
+<p>Perform library size normalization with <code>scprep</code> followed by square root transformation.</p>
+<div class="alert alert-block alert-warning">
+<p><em><b>Note:</b> this will overide adata.X with normalized data and remove adata.raw slot.</em></p>
+</div>
+<div id="cell-20" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note this will overide adata.X with normalized data and remove adata.raw slot</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>magic_pipeline.normalize_data()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Normalizing data...
+After normalization: 72650 cells x 27837 genes</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>MagicPipeline(
+  data = AnnData object with (n_obs × n_vars) = 72650 × 27837,
+  filtered = True,
+  imputed = False,
+  magic_data = None,
+  project_dir = 'SimiCExampleRun'
+)</code></pre>
+</div>
+</div>
+</section>
+<section id="step-1.5-run-magic-imputation" class="level2">
+<h2 class="anchored" data-anchor-id="step-1.5-run-magic-imputation">Step 1.5: Run MAGIC Imputation</h2>
+<p>Run magic imputation with defaul parameters</p>
+<div id="cell-22" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>magic_pipeline.run_magic(</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    random_state<span class="op">=</span><span class="dv">123</span>,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    n_jobs<span class="op">=-</span><span class="dv">2</span>,  <span class="co"># Use all but 1 CPU cores</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    save_data<span class="op">=</span><span class="va">True</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Running MAGIC imputation...
+Calculating MAGIC...
+  Running MAGIC on 72650 cells and 27837 genes.
+  Calculating graph and diffusion operator...
+    Calculating PCA...
+    Calculated PCA in 39.74 seconds.
+    Calculating KNN search...
+    Calculated KNN search in 2.47 seconds.
+    Calculating affinities...
+    Calculated affinities in 5.33 seconds.
+  Calculated graph and diffusion operator in 47.65 seconds.
+  Running MAGIC with `solver='exact'` on 27837-dimensional data may take a long time. Consider denoising specific genes with `genes=&lt;list-like&gt;` or using `solver='approximate'`.
+  Calculating imputation...
+  Calculated imputation in 169.16 seconds.
+Calculated MAGIC in 218.13 seconds.
+MAGIC imputation complete:  72650 cells x 27837 genes
+
+Saving MAGIC-imputed data to SimiCExampleRun/magic_output/magic_imputed.pickle
+Saved successfully to SimiCExampleRun/magic_output/magic_imputed.pickle</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>MagicPipeline(
+  data = AnnData object with (n_obs × n_vars) = 72650 × 27837,
+  filtered = True,
+  imputed = True,
+  magic_data = AnnData object with n_obs × n_vars = 72650 × 27837,
+  project_dir = 'SimiCExampleRun'
+)</code></pre>
+</div>
+</div>
+<div id="cell-23" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>magic_pipeline.magic_adata.write_h5ad(magic_pipeline.magic_output_file.with_suffix(<span class="st">'.h5ad'</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>If you want to run MAGIC imputation with custom parameters you can pass them as <code>**kwargs</code>: - <code>t</code>: Number of diffusion steps (default: ‘auto’) - <code>knn</code>: Number of nearest neighbors (default: 5) - <code>decay</code>: Decay rate for kernel (default: 1) - <code>n_jobs</code>: Number of parallel jobs (default: -2) - <code>genes</code>: Genes to be returned. If None or “all genes” it returns teh entire matrix. - <code>save_data</code>: Whether to automatically save imputed data (default: True). If magic_output_file extension is .pickle will save it in .pickle, if h5ad, will save in adata format.</p>
+<p>See <a href="https://magic.readthedocs.io/">MAGIC documentation</a> for more parameter options.</p>
+</section>
+<section id="step-1.6-check-pipeline-status" class="level2">
+<h2 class="anchored" data-anchor-id="step-1.6-check-pipeline-status">Step 1.6: Check Pipeline Status</h2>
+<div id="cell-26" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>magic_pipeline.print_project_info(max_depth<span class="op">=</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>SimiCExampleRun/
+└── magic_output/
+    ├── magic_imputed.h5ad
+    └── magic_imputed.pickle</code></pre>
+</div>
+</div>
+<div class="alert alert-block alert-success">
+<p><b>Success!</b> MAGIC imputation is complete. The imputed data is saved in the magic_output directory.</p>
+</div>
+</section>
+<section id="part-2-experiment-setup-and-gene-selection" class="level1">
+<h1>Part 2: Experiment Setup and Gene Selection</h1>
+<p><a id="experiment"></a></p>
+Now we will select top variable genes and prepare input files for SimiCPipeline.
+<div class="alert alert-block alert-info">
+<p><em><b>Note:</b> if you have your data filtered, normalized and imputed with alternative methods you can start from here.</em></p>
+</div>
+<section id="step-2.1-load-imputed-data" class="level2">
+<h2 class="anchored" data-anchor-id="step-2.1-load-imputed-data">Step 2.1: Load Imputed Data</h2>
+<p>In this example we will start from the imputed AnnData object from the MAGIC pipeline. If you saved and stopped your work, you can re-load the object with the following code:</p>
+<div id="cell-30" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If you saved it in h5ad format, you can load it back using:</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co"># import simicpipeline</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co"># imputed_data = simicpipeline.load_from_anndata('./SimiCExampleRun/magic_output/magic_imputed.h5ad')</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-31" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># # If you saved it in pickle format, you can load it back using:</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="co"># import pickle</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co"># with open('./SimiCExampleRun/magic_output/magic_imputed.pickle', 'rb') as f:</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co">#     imputed_data = pickle.load(f)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-32" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If you contintue from the previous section you can access the MAGIC-imputed AnnData object</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>imputed_data <span class="op">=</span> magic_pipeline.magic_adata.copy()</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>imputed_data</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co"># If you have inputed data from other methods, you can load it here. Make sure it is in AnnData format or pandas DataFrame (cells × genes)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<pre><code>AnnData object with n_obs × n_vars = 72650 × 27837
+    obs: 'sample', 'treatment', 'cell_line', 'final_annotation', 'final_annotation_functional', 'nn_majority_label', 'nn_majority_frac', 'flag_misplaced'</code></pre>
+</div>
+</div>
+<div id="cell-33" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Imputed data shape: </span><span class="sc">{</span>imputed_data<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(imputed_data.obs.head())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Imputed data shape: (72650, 27837)
+                             sample    treatment  cell_line  \
+Cell                                                          
+43_01_73__s1  KPB25L-UV_Combination  Combination  KPB25L-UV   
+43_01_92__s1  KPB25L-UV_Combination  Combination  KPB25L-UV   
+43_01_94__s1  KPB25L-UV_Combination  Combination  KPB25L-UV   
+43_02_41__s1  KPB25L-UV_Combination  Combination  KPB25L-UV   
+43_02_56__s1  KPB25L-UV_Combination  Combination  KPB25L-UV   
+
+               final_annotation final_annotation_functional  \
+Cell                                                          
+43_01_73__s1       Cancer cells                  Basal-like   
+43_01_92__s1       Cancer cells         Proliferating cells   
+43_01_94__s1       Cancer cells         Proliferating cells   
+43_02_41__s1  Endothelial cells           Endothelial cells   
+43_02_56__s1       Cancer cells                  Basal-like   
+
+                nn_majority_label  nn_majority_frac  flag_misplaced  
+Cell                                                                 
+43_01_73__s1           Basal-like               1.0           False  
+43_01_92__s1  Proliferating cells               1.0           False  
+43_01_94__s1  Proliferating cells               1.0           False  
+43_02_41__s1    Endothelial cells               1.0           False  
+43_02_56__s1           Basal-like               0.9           False  </code></pre>
+</div>
+</div>
+</section>
+<section id="step-2.2-initialize-experiment-setup" class="level2">
+<h2 class="anchored" data-anchor-id="step-2.2-initialize-experiment-setup">Step 2.2: Initialize Experiment Setup</h2>
+<p>Create an experiment setup instance and directories: - <code>input_data</code>: Your imputed AnnData object or pandas DataFrame (cells × genes) - <code>tf_path</code>: Path to transcription factor (TF) list file (.csv or .txt) - <code>project_dir</code>: Directory where experiment files will be saved</p>
+<div class="alert alert-block alert-info">
+<p><em><b>Note:</b> In case you do not have a TF list: </em></p>
+</div>
+<p>We provide a mouse TF list in the data folder that can be saved in your working data directory. - TF mouse list was downloaded in December 2024 from <a href="https://guolab.wchscu.cn/AnimalTFDB4_static/download/TF_list_final/Mus_musculus_TF">AnimalTFDB4</a> - TF human list was downloaded in February 2026 from <a href="#">XX</a></p>
+<p>In this tutorial we are working wiht mouse data so we will use the TF list from <code>AnimalTFDB4</code></p>
+<div id="cell-36" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> importlib.resources <span class="im">import</span> files</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>p2tf <span class="op">=</span> files(<span class="st">"simicpipeline.data"</span>).joinpath(<span class="st">"Mus_musculus_TF.txt"</span>)</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>mouse_TF_df <span class="op">=</span> pd.read_csv(p2tf, sep<span class="op">=</span><span class="st">'</span><span class="ch">\t</span><span class="st">'</span>)</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>mouse_TF <span class="op">=</span> mouse_TF_df[<span class="st">'Symbol'</span>]</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>mouse_TF.to_csv(<span class="st">'./data/TF_list.csv'</span>, index<span class="op">=</span><span class="va">False</span>, header<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-37" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize ExperimentSetup</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> simicpipeline <span class="im">import</span> ExperimentSetup</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>experiment <span class="op">=</span> ExperimentSetup(</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    input_data <span class="op">=</span> imputed_data, </span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    tf_path <span class="op">=</span> <span class="st">"./data/TF_list.csv"</span>, <span class="co"># Should have no header</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    project_dir<span class="op">=</span><span class="st">'./SimiCExampleRun'</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Matrix shape: </span><span class="sc">{</span>experiment<span class="sc">.</span>matrix<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of cells: </span><span class="sc">{</span><span class="bu">len</span>(experiment.cell_names)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of genes: </span><span class="sc">{</span><span class="bu">len</span>(experiment.gene_names)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of TFs: </span><span class="sc">{</span><span class="bu">len</span>(experiment.tf_list)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"... Example TF names: </span><span class="sc">{</span>experiment<span class="sc">.</span>tf_list[<span class="dv">0</span>:<span class="dv">5</span>]<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span>)</span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span><span class="op">*</span><span class="dv">70</span>)</span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Current directory status"</span>)</span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span><span class="op">*</span><span class="dv">70</span> <span class="op">+</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>experiment.print_project_info(max_depth<span class="op">=</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Matrix shape: (72650, 27837)
+Number of cells: 72650
+Number of genes: 27837
+Number of TFs: 1611
+... Example TF names: ['Lin28b', 'Tbx2', 'Dmtf1', 'Irx4', 'Irf3']
+
+
+======================================================================
+Current directory status
+======================================================================
+
+SimiCExampleRun/
+├── inputFiles/
+├── magic_output/
+│   ├── magic_imputed.h5ad
+│   └── magic_imputed.pickle
+└── outputSimic/
+    ├── figures/
+    └── matrices/</code></pre>
+</div>
+</div>
+<p>The previous code automatically creates the SimiC directory structure:</p>
+<pre><code>project_dir/
+├── inputFiles/       # Input files for SimiC
+└── outputSimic/      # Output files generated by SimiCPipeline
+    ├── figures/      # For future visualizations
+    └── matrices/     # For future results</code></pre>
+</section>
+<section id="step-2.3-calculate-mad-and-select-genes" class="level2">
+<h2 class="anchored" data-anchor-id="step-2.3-calculate-mad-and-select-genes">Step 2.3: Calculate MAD and Select Genes</h2>
+<p>Select top variable genes based on Median Absolute Deviation (MAD): - <code>n_tfs</code>: Number of top TF genes to select (default: 100) - <code>n_targets</code>: Number of top target genes to select (default: 1000)</p>
+<p>Returns a tuple of (TF_list, TARGET_list)</p>
+<div id="cell-40" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>tf_list, target_list <span class="op">=</span> experiment.calculate_mad_genes(</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    n_tfs<span class="op">=</span><span class="dv">100</span>,</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    n_targets<span class="op">=</span><span class="dv">1000</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Selected </span><span class="sc">{</span><span class="bu">len</span>(tf_list)<span class="sc">}</span><span class="ss"> TFs"</span>)</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Selected </span><span class="sc">{</span><span class="bu">len</span>(target_list)<span class="sc">}</span><span class="ss"> targets"</span>)</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Top 10 TFs: </span><span class="sc">{</span>tf_list[:<span class="dv">10</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Top 10 targets: </span><span class="sc">{</span>target_list[:<span class="dv">10</span>]<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Removing 0 targets with MAD = 0
+Selecting top 1000 targets based on MAD.
+Selected 100 TFs
+Selected 1000 targets
+
+Top 10 TFs: ['Hmga2', 'Zfpm2', 'Bnc2', 'Glis3', 'Zeb2', 'Pbx1', 'Ebf1', 'Zeb1', 'Mecom', 'Nfib']
+
+Top 10 targets: ['Rn18s-rs5', 'Malat1', 'Cmss1', 'Lamp2', 'Brinp3', 'Rad51b', 'Ccbe1', 'Tenm4', 'Nop58', 'Xist']</code></pre>
+</div>
+</div>
+</section>
+<section id="step-2.4-subset-data-to-selected-genes" class="level2">
+<h2 class="anchored" data-anchor-id="step-2.4-subset-data-to-selected-genes">Step 2.4: Subset Data to Selected Genes</h2>
+<p>Create a subset of your data containing only the selected TFs and targets.</p>
+<div id="cell-42" class="cell" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine TF and target lists</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> anndata <span class="im">as</span> ad</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>selected_genes <span class="op">=</span> tf_list <span class="op">+</span> target_list</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset the data</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">isinstance</span>(imputed_data, ad.AnnData):</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>    subset_data <span class="op">=</span> imputed_data[:, selected_genes].copy()</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> <span class="bu">isinstance</span>(imputed_data, pd.DataFrame):</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>    subset_data <span class="op">=</span> imputed_data[selected_genes].copy()</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Subset data shape: </span><span class="sc">{</span>subset_data<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Subset data shape: (72650, 1100)</code></pre>
+</div>
+</div>
+</section>
+<section id="step-2.5-save-experiment-files" class="level2">
+<h2 class="anchored" data-anchor-id="step-2.5-save-experiment-files">Step 2.5: Save Experiment Files</h2>
+<p>Save the expression matrix and TF names in <code>.pickle</code> format and annotation file (optional) as <code>.txt</code> - <code>run_data</code>: <code>ad.AnnData</code> or <code>pd.Dataframe</code> with data to run in SimiC (Inputed and sliced according to experiment run) - <code>matrix_filename</code>: Filename to save <code>run_data</code> (saved with row/column headers). Can be <code>.pickle</code>or <code>csv</code>. - <code>tf_filename</code>: Filename for TF names list for the experiment run. Can be <code>.pickle</code>or <code>csv</code>. Even though you have a general TF_list file, this function will save the TFs selected by MAD that are found in your run_data.</p>
+<ul>
+<li><p><code>annotation</code>:<code>str</code> (Optional) if <code>run_data</code> is <code>ad.AnnData</code> and <code>annotation</code> is in <code>run_data.obs.columns</code>, it will create a <code>.csv</code> file with the phenotype annotations needed for SimiC with cell names as index and columns <code>category</code> and <code>labels</code>.</p></li>
+<li><p><code>annotation_order</code>(Optional) List defining the desired order of annotation categories (e.g.&nbsp;[‘control’, ‘treated’]). The first element maps to 0, second to 1, etc. If None, pd.factorize default order is used.</p></li>
+</ul>
+<p>All files are saved in the <code>inputFiles/</code> directory.</p>
+<div id="cell-44" class="cell" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This takes some time depending on the matrix size</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>experiment.save_experiment_files(</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    run_data <span class="op">=</span> subset_data,</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    matrix_filename <span class="op">=</span> <span class="st">'expression_matrix.csv'</span>,</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>    tf_filename <span class="op">=</span> <span class="st">'TF_list.csv'</span>,</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>    annotation <span class="op">=</span> <span class="st">'groups'</span> <span class="co"># Will raise warning if column not found in subset_data.obs_names</span></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Saved expression matrix to SimiCExampleRun/inputFiles/expression_matrix.csv
+Saved 100 TFs to SimiCExampleRun/inputFiles/TF_list.csv
+
+Warning: Annotation 'groups' not found in obs columns.
+
+Available columns:
+ ['sample', 'treatment', 'cell_line', 'final_annotation', 'final_annotation_functional', 'nn_majority_label', 'nn_majority_frac', 'flag_misplaced']
+Please manually provide an appropriate annotation file to SimiCPipeline in SimiCExampleRun/inputFiles
+
+-------
+
+Experiment files saved successfully.
+
+-------
+</code></pre>
+</div>
+</div>
+<p>We recommend saving it in pickle format for fast load/dump process and save disk space.</p>
+<p>Regarding label handling. Because it is important for SimiCPipeline run to clearly define the desired labels in the correct order, several checks and warnings will be raised if <code>annotation_order</code> is wrongly provided.</p>
+<div id="cell-46" class="cell" data-execution_count="21">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>experiment.save_experiment_files(</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>    run_data <span class="op">=</span> subset_data,</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    matrix_filename <span class="op">=</span> <span class="st">'expression_matrix.pickle'</span>,</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>    tf_filename <span class="op">=</span> <span class="st">'TF_list.csv'</span>, <span class="co"># Will raise warning if file already exists and overwrite</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>    annotation <span class="op">=</span> <span class="st">'treatment'</span>, <span class="co"># Will rase </span><span class="al">WARNING</span><span class="co"> because it is categorical, it will convert it to numerical and assign the order with the annotation_order argument</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>    annotation_order <span class="op">=</span> [<span class="st">'control'</span>, <span class="st">'DAC'</span>] <span class="co"># Will raise ERROR if missing categories or if categories in annotation_order do not match those in subset_data.obs['treatment']</span></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Saved expression matrix to SimiCExampleRun/inputFiles/expression_matrix.pickle
+
+Warning: Output file SimiCExampleRun/inputFiles/TF_list.csv already exists and will be overwritten.
+Saved 100 TFs to SimiCExampleRun/inputFiles/TF_list.csv
+
+-------
+
+Annotation 'treatment' found in obs columns!
+Warning: annotation is not numeric. Will convert from categorical to numeric.</code></pre>
+</div>
+<div class="cell-output cell-output-error">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[21], line 1</span>
+<span class="ansi-green-fg">----&gt; 1</span> <span class="ansi-yellow-bg">experiment</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">save_experiment_files</span><span class="ansi-yellow-bg">(</span>
+<span class="ansi-green-fg ansi-bold">      2</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">run_data</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">subset_data</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg ansi-bold">      3</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">matrix_filename</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">'</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">expression_matrix.pickle</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">'</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg ansi-bold">      4</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">tf_filename</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">'</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">TF_list.csv</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">'</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="font-style:italic;color:rgb(95,135,135)" class="ansi-yellow-bg"># Will raise warning if file already exists and overwrite</span>
+<span class="ansi-green-fg ansi-bold">      5</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">annotation</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">'</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">treatment</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">'</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="font-style:italic;color:rgb(95,135,135)" class="ansi-yellow-bg"># Will rase WARNING because it is categorical, it will convert it to numerical and assign the order with the annotation_order argument</span>
+<span class="ansi-green-fg ansi-bold">      6</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">annotation_order</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">[</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">'</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">control</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">'</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">'</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">DAC</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">'</span><span class="ansi-yellow-bg">]</span><span class="ansi-yellow-bg"> </span><span style="font-style:italic;color:rgb(95,135,135)" class="ansi-yellow-bg"># Will raise ERROR if missing categories or if categories in annotation_order do not match those in subset_data.obs['treatment']</span>
+<span class="ansi-green-fg ansi-bold">      7</span> <span class="ansi-yellow-bg">)</span>
+
+File <span class="ansi-green-fg">/home/SimiCPipeline/src/simicpipeline/core/simicpreprocess.py:540</span>, in <span class="ansi-cyan-fg">ExperimentSetup.save_experiment_files</span><span class="ansi-blue-fg">(self, run_data, matrix_filename, tf_filename, annotation, annotation_order)</span>
+<span class="ansi-green-fg ansi-bold">    538</span> unused_in_order <span style="color:rgb(98,98,98)">=</span> ordered_set <span style="color:rgb(98,98,98)">-</span> observed_categories
+<span class="ansi-green-fg ansi-bold">    539</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> missing_from_order:
+<span class="ansi-green-fg">--&gt; 540</span>         <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> <span style="font-weight:bold;color:rgb(215,95,95)">ValueError</span>(<span style="color:rgb(175,0,0)">f</span><span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">The following annotation values are in the data but not in annotation_order: </span><span style="font-weight:bold;color:rgb(175,95,135)">{</span>missing_from_order<span style="font-weight:bold;color:rgb(175,95,135)">}</span><span style="color:rgb(175,0,0)">.</span><span style="font-weight:bold;color:rgb(175,95,0)">\n</span><span style="color:rgb(175,0,0)">"</span>
+<span class="ansi-green-fg ansi-bold">    541</span>                         <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">If only these annotation_order categories are needed, subset run_data accordingly before running `save_experiment_files`</span><span style="color:rgb(175,0,0)">"</span>
+<span class="ansi-green-fg ansi-bold">    542</span>                         )
+<span class="ansi-green-fg ansi-bold">    543</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> unused_in_order:
+<span class="ansi-green-fg ansi-bold">    544</span>     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> <span style="font-weight:bold;color:rgb(215,95,95)">ValueError</span>(
+<span class="ansi-green-fg ansi-bold">    545</span>         <span style="color:rgb(175,0,0)">f</span><span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">The following annotation_order values are not present in data: </span><span style="font-weight:bold;color:rgb(175,95,135)">{</span>unused_in_order<span style="font-weight:bold;color:rgb(175,95,135)">}</span><span style="color:rgb(175,0,0)">"</span>
+<span class="ansi-green-fg ansi-bold">    546</span>     )
+
+<span class="ansi-red-fg">ValueError</span>: The following annotation values are in the data but not in annotation_order: {'Combination', 'PD-L1'}.
+If only these annotation_order categories are needed, subset run_data accordingly before running `save_experiment_files`</pre>
+</div>
+</div>
+</div>
+<div id="cell-47" class="cell" data-execution_count="22">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>experiment.save_experiment_files(</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>    run_data <span class="op">=</span> subset_data,</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>    matrix_filename <span class="op">=</span> <span class="st">'expression_matrix.pickle'</span>,</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>    tf_filename <span class="op">=</span> <span class="st">'TF_list.csv'</span>, <span class="co"># Will raise warning if file already exists and overwrite</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>    annotation <span class="op">=</span> <span class="st">'treatment'</span>, </span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>    annotation_order <span class="op">=</span> [<span class="st">'control'</span>, <span class="st">'PD-L1'</span>,<span class="st">'DAC'</span>, <span class="st">'Combination'</span>]</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Warning: Output file SimiCExampleRun/inputFiles/expression_matrix.pickle already exists and will be overwritten.
+Saved expression matrix to SimiCExampleRun/inputFiles/expression_matrix.pickle
+
+Warning: Output file SimiCExampleRun/inputFiles/TF_list.csv already exists and will be overwritten.
+Saved 100 TFs to SimiCExampleRun/inputFiles/TF_list.csv
+
+-------
+
+Annotation 'treatment' found in obs columns!
+Warning: annotation is not numeric. Will convert from categorical to numeric.
+Annotation order applied: {0: 'control', 1: 'PD-L1', 2: 'DAC', 3: 'Combination'}
+
+Annotation distribution:
+label
+3    17259
+2    20491
+1    15426
+0    19474
+Saved annotation to SimiCExampleRun/inputFiles/treatment_annotation.csv
+
+-------
+
+Experiment files saved successfully.
+
+-------
+</code></pre>
+</div>
+</div>
+<div class="alert alert-block alert-warning">
+<p><b>Be careful!</b> Double check your labels are correct and match your cell numbers</p>
+</div>
+<div class="alert alert-block alert-success">
+<p><b>Success!</b> All preprocessing steps completed. Your files are ready for SimiC analysis.</p>
+</div>
+</section>
+<section id="step-2.6-verify-saved-files" class="level2">
+<h2 class="anchored" data-anchor-id="step-2.6-verify-saved-files">Step 2.6: Verify Saved Files</h2>
+<p>Check that all files were created correctly.</p>
+<div id="cell-51" class="cell" data-execution_count="23">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>experiment.print_project_info(max_depth<span class="op">=</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>SimiCExampleRun/
+├── inputFiles/
+│   ├── TF_list.csv
+│   ├── expression_matrix.csv
+│   ├── expression_matrix.pickle
+│   └── treatment_annotation.csv
+├── magic_output/
+│   ├── magic_imputed.h5ad
+│   └── magic_imputed.pickle
+└── outputSimic/
+    ├── figures/
+    └── matrices/</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="summary" class="level1">
+<h1>Summary</h1>
+<p>This tutorial covered:</p>
+<p>✓ Loading and filtering scRNA-seq data</p>
+<p>✓ Running MAGIC imputation</p>
+<p>✓ Selecting top variable genes using MAD</p>
+<p>✓ Preparing input files for SimiC analysis with proper directory structure</p>
+<section id="output-directory-structure" class="level3">
+<h3 class="anchored" data-anchor-id="output-directory-structure">Output Directory Structure</h3>
+<p>Your output directory now contains:</p>
+<pre><code>SimicExampleRun/
+├── magic_output/
+│   └── magic_imputed.pickle/.h5ad
+├── inputFiles/
+│   ├── expression_matrix.pickle/.csv
+│   ├── TF_list.pickle
+│   └── treatment_annotation.csv
+└── outputSimic/
+    ├── figures/
+    └── matrices/</code></pre>
+</section>
+</section>
+<section id="alternative-approach" class="level1">
+<h1>Alternative Approach</h1>
+<p>In this the previous section we used the whole Magic-inputed matrix (obtained in <a href="#part1">Part1</a>) and selected top MAD genes but you may want to run SimiC in a subset of cells from your data.</p>
+<p>Generally we recommend to impute the data in the whole dataset, especially if it was generated in the same sequencing batch, as MAGIC will have more context information to impute the data. However, we acknowledge that every experiment/dataset is different and may require a different approach.</p>
+<p>If you want to run SimiCPipeline in a subset of cells, once you have imputed your data, make sure you slice the adata object before you inilitalize the <code>ExperimentSetup</code> class so MAD genes are calculated over your cells of interest.</p>
+<p>Following this tutorial steps are not required for running <code>SimiCPipeline</code> but recommended before as it will facilitate the process. Just make sure that:</p>
+<ol type="1">
+<li>You have <strong>cell assignments</strong> if not done before: Create a file with cell phenotype labels matching the same order as your expression matrix that you will use in SimiC.</li>
+<li>Prepare <strong>expression matrix</strong> pickle/csv format</li>
+<li>Prepare <strong>TF_list</strong> pickle/csv with TF genes in your expression matrix.</li>
+</ol>
+<p>We will show how to easily subset your cells and save it with the <code>ExperimentSetup</code></p>
+<div id="cell-55" class="cell" data-execution_count="24">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>imputed_data.obs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="24">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">sample</th>
+<th data-quarto-table-cell-role="th">treatment</th>
+<th data-quarto-table-cell-role="th">cell_line</th>
+<th data-quarto-table-cell-role="th">final_annotation</th>
+<th data-quarto-table-cell-role="th">final_annotation_functional</th>
+<th data-quarto-table-cell-role="th">nn_majority_label</th>
+<th data-quarto-table-cell-role="th">nn_majority_frac</th>
+<th data-quarto-table-cell-role="th">flag_misplaced</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Cell</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">43_01_73__s1</th>
+<td>KPB25L-UV_Combination</td>
+<td>Combination</td>
+<td>KPB25L-UV</td>
+<td>Cancer cells</td>
+<td>Basal-like</td>
+<td>Basal-like</td>
+<td>1.0</td>
+<td>False</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">43_01_92__s1</th>
+<td>KPB25L-UV_Combination</td>
+<td>Combination</td>
+<td>KPB25L-UV</td>
+<td>Cancer cells</td>
+<td>Proliferating cells</td>
+<td>Proliferating cells</td>
+<td>1.0</td>
+<td>False</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">43_01_94__s1</th>
+<td>KPB25L-UV_Combination</td>
+<td>Combination</td>
+<td>KPB25L-UV</td>
+<td>Cancer cells</td>
+<td>Proliferating cells</td>
+<td>Proliferating cells</td>
+<td>1.0</td>
+<td>False</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">43_02_41__s1</th>
+<td>KPB25L-UV_Combination</td>
+<td>Combination</td>
+<td>KPB25L-UV</td>
+<td>Endothelial cells</td>
+<td>Endothelial cells</td>
+<td>Endothelial cells</td>
+<td>1.0</td>
+<td>False</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">43_02_56__s1</th>
+<td>KPB25L-UV_Combination</td>
+<td>Combination</td>
+<td>KPB25L-UV</td>
+<td>Cancer cells</td>
+<td>Basal-like</td>
+<td>Basal-like</td>
+<td>0.9</td>
+<td>False</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">06_92_89__s8</th>
+<td>KPB25L_control</td>
+<td>control</td>
+<td>KPB25L</td>
+<td>Cancer cells</td>
+<td>Basal-like</td>
+<td>Basal-like</td>
+<td>1.0</td>
+<td>False</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">06_94_61__s8</th>
+<td>KPB25L_control</td>
+<td>control</td>
+<td>KPB25L</td>
+<td>Macrophages</td>
+<td>Macrophages</td>
+<td>Macrophages</td>
+<td>1.0</td>
+<td>False</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">06_96_48__s8</th>
+<td>KPB25L_control</td>
+<td>control</td>
+<td>KPB25L</td>
+<td>Cancer cells</td>
+<td>Unknown</td>
+<td>Unknown</td>
+<td>1.0</td>
+<td>False</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">06_96_58__s8</th>
+<td>KPB25L_control</td>
+<td>control</td>
+<td>KPB25L</td>
+<td>Macrophages</td>
+<td>Macrophages</td>
+<td>Macrophages</td>
+<td>1.0</td>
+<td>False</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">06_96_82__s8</th>
+<td>KPB25L_control</td>
+<td>control</td>
+<td>KPB25L</td>
+<td>Cancer cells</td>
+<td>Basal-like</td>
+<td>Basal-like</td>
+<td>1.0</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+
+<p>72650 rows × 8 columns</p>
+</div>
+</div>
+</div>
+<div id="cell-56" class="cell" data-execution_count="25">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> simicpipeline <span class="im">import</span> ExperimentSetup</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>cell_mask <span class="op">=</span> imputed_data.obs[<span class="st">'cell_line'</span>].isin([<span class="st">"KPB25L"</span>]) <span class="op">&amp;</span> imputed_data.obs[<span class="st">'final_annotation_functional'</span>].isin([<span class="st">'Proliferating cells'</span>,<span class="st">'Basal-like'</span>])</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of selected cells:"</span>,{<span class="bu">sum</span>(cell_mask)})</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>subset_imputed_data <span class="op">=</span> imputed_data[cell_mask,:].copy()</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Suset matrix shape:"</span>, {subset_imputed_data.shape})</span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>experiment2 <span class="op">=</span> ExperimentSetup(</span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a>    input_data <span class="op">=</span> subset_imputed_data, </span>
+<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a>    tf_path <span class="op">=</span> <span class="st">"./data/TF_list.csv"</span>, <span class="co"># Should have no header</span></span>
+<span id="cb50-11"><a href="#cb50-11" aria-hidden="true" tabindex="-1"></a>    project_dir<span class="op">=</span><span class="st">'./SimiCExampleRun/KPB25L/Tumor'</span></span>
+<span id="cb50-12"><a href="#cb50-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb50-13"><a href="#cb50-13" aria-hidden="true" tabindex="-1"></a>experiment2.print_project_info(max_depth<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb50-14"><a href="#cb50-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Then follow the same steps as above to select genes and save experiment files</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Number of selected cells: {21490}
+Suset matrix shape: {(21490, 27837)}
+Creating project directory: SimiCExampleRun/KPB25L/Tumor
+Tumor/
+├── inputFiles/
+└── outputSimic/</code></pre>
+</div>
+</div>
+<p>However the initial output directory will then look like:</p>
+<div id="cell-58" class="cell" data-execution_count="26">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>experiment.print_project_info(max_depth<span class="op">=</span><span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>SimiCExampleRun/
+├── KPB25L/
+│   └── Tumor/
+│       ├── inputFiles/
+│       └── outputSimic/
+├── inputFiles/
+│   ├── TF_list.csv
+│   ├── expression_matrix.csv
+│   ├── expression_matrix.pickle
+│   └── treatment_annotation.csv
+├── magic_output/
+│   ├── magic_imputed.h5ad
+│   └── magic_imputed.pickle
+└── outputSimic/
+    ├── figures/
+    └── matrices/</code></pre>
+</div>
+</div>
+<p>Repeat the steps to calculate MAD genes adn save files</p>
+<div id="cell-60" class="cell" data-execution_count="27">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>tf_list, target_list <span class="op">=</span> experiment2.calculate_mad_genes(</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>    n_tfs<span class="op">=</span><span class="dv">100</span>,</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>    n_targets<span class="op">=</span><span class="dv">1000</span></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine TF and target lists</span></span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>selected_genes2 <span class="op">=</span> tf_list <span class="op">+</span> target_list</span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>subset_experiment_data <span class="op">=</span> subset_imputed_data[:, selected_genes2].copy()</span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>experiment2.save_experiment_files(</span>
+<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a>    run_data <span class="op">=</span> subset_experiment_data,</span>
+<span id="cb54-11"><a href="#cb54-11" aria-hidden="true" tabindex="-1"></a>    matrix_filename <span class="op">=</span> <span class="st">'expression_matrix.pickle'</span>,</span>
+<span id="cb54-12"><a href="#cb54-12" aria-hidden="true" tabindex="-1"></a>    tf_filename <span class="op">=</span> <span class="st">'TF_list.csv'</span>, <span class="co"># Will raise warning if file already exists and overwrite</span></span>
+<span id="cb54-13"><a href="#cb54-13" aria-hidden="true" tabindex="-1"></a>    annotation <span class="op">=</span> <span class="st">'treatment'</span>,</span>
+<span id="cb54-14"><a href="#cb54-14" aria-hidden="true" tabindex="-1"></a>    annotation_order <span class="op">=</span> [<span class="st">'control'</span>, <span class="st">'PD-L1'</span>,<span class="st">'DAC'</span>, <span class="st">'Combination'</span>] </span>
+<span id="cb54-15"><a href="#cb54-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb54-16"><a href="#cb54-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Subset data shape: </span><span class="sc">{</span>subset_experiment_data<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Removing 8 targets with MAD = 0
+Selecting top 1000 targets based on MAD.
+Saved expression matrix to SimiCExampleRun/KPB25L/Tumor/inputFiles/expression_matrix.pickle
+Saved 100 TFs to SimiCExampleRun/KPB25L/Tumor/inputFiles/TF_list.csv
+
+-------
+
+Annotation 'treatment' found in obs columns!
+Warning: annotation is not numeric. Will convert from categorical to numeric.
+Annotation order applied: {0: 'control', 1: 'PD-L1', 2: 'DAC', 3: 'Combination'}
+
+Annotation distribution:
+label
+3    4392
+2    5895
+1    4964
+0    6239
+Saved annotation to SimiCExampleRun/KPB25L/Tumor/inputFiles/treatment_annotation.csv
+
+-------
+
+Experiment files saved successfully.
+
+-------
+
+Subset data shape: (21490, 1100)</code></pre>
+</div>
+</div>
+<div id="cell-61" class="cell" data-execution_count="28">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>experiment2.print_project_info(<span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Tumor/
+├── inputFiles/
+│   ├── TF_list.csv
+│   ├── expression_matrix.pickle
+│   └── treatment_annotation.csv
+└── outputSimic/
+    ├── figures/
+    └── matrices/</code></pre>
+</div>
+</div>
+</section>
+<section id="next-steps" class="level1">
+<h1>Next steps:</h1>
+<ol type="1">
+<li><strong>Run SimiC</strong>: Use <code>SimiCPipeline</code> class to run SimiC.</li>
+<li><strong>Explore results</strong>: Use <code>SimicVisualization</code> class to analyze GRNs and TF activities.</li>
+</ol>
+<p>Check <code>Tutorial_SimiCPipeline_full.ipynb</code> or <code>Tutorial_SimiCPipeline_visualization</code> for guided info.</p>
+<section id="final-notes" class="level3">
+<h3 class="anchored" data-anchor-id="final-notes">Final Notes</h3>
+<div class="alert alert-block alert-info">
+<p><b>Data Format:</b> All matrices are stored as cells × genes (rows = cells, columns = genes)</p>
+</div>
+<div class="alert alert-block alert-warning">
+<p><b>Memory Usage:</b> MAGIC imputation can be memory-intensive for large datasets. Consider using a machine with sufficient RAM and adjusting MAGIC parameters (n_jobs, knn, t)</p>
+</div>
+<div class="alert alert-block alert-info">
+<p><b>Please note:</b> Although you will be able to pass custom file/direcotry paths, we highly recommend to follow the directory structure described above and follow this tutorial before running SimiC to avoid errors.</p>
+</div>
+
+
+</section>
+</section>
+
+</em></main><em> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/RaghadShu\.github\.io\/SimiC-Suite\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</em></div><em> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>SimiC-Suite</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Built with Quarto</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</em></body></html>

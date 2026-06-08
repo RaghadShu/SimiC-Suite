@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="description" content="R / Bioconductor package for tool-agnostic assessment and visualization of GRN outputs.">
 
-<title>Documentation – SimiC-Suite</title>
+<title>SimiCviz – SimiC-Suite</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -101,7 +102,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">SimiCPipeline</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./simicviz.html"> 
+    <a class="nav-link active" href="./simicviz.html" aria-current="page"> 
 <span class="menu-text">SimiCviz</span></a>
   </li>  
   <li class="nav-item">
@@ -124,8 +125,11 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#getting-started" id="toc-getting-started" class="nav-link active" data-scroll-target="#getting-started">Getting Started</a></li>
-  <li><a href="#suggested-workflow" id="toc-suggested-workflow" class="nav-link" data-scroll-target="#suggested-workflow">Suggested Workflow</a></li>
+  <li><a href="#tutorial" id="toc-tutorial" class="nav-link active" data-scroll-target="#tutorial">Tutorial</a>
+  <ul class="collapse">
+  <li><a href="#simicviz-r-bioconductor-tutorial" id="toc-simicviz-r-bioconductor-tutorial" class="nav-link" data-scroll-target="#simicviz-r-bioconductor-tutorial">SimiCviz R / Bioconductor Tutorial</a></li>
+  </ul></li>
+  <li><a href="#embedded-preview" id="toc-embedded-preview" class="nav-link" data-scroll-target="#embedded-preview">Embedded Preview</a></li>
   </ul>
 </nav>
     </div>
@@ -134,9 +138,14 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Documentation</h1>
+<h1 class="title">SimiCviz</h1>
 </div>
 
+<div>
+  <div class="description">
+    R / Bioconductor package for tool-agnostic assessment and visualization of GRN outputs.
+  </div>
+</div>
 
 
 <div class="quarto-title-meta">
@@ -151,87 +160,24 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="getting-started" class="level2">
-<h2 class="anchored" data-anchor-id="getting-started">Getting Started</h2>
-<p>SimiC-Suite contains two complementary packages:</p>
-<div class="tabset-margin-container"></div><div class="package-tabs panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">SimiCPipeline</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">SimiCviz</a></li></ul>
-<div class="package-tabs tab-content">
-<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div class="package-panel pipeline-panel">
-<p>Use SimiCPipeline when the goal is to infer phenotype-specific gene regulatory networks from single-cell RNA-seq data and compute Regulon Activity Score (RAS) values.</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Step</th>
-<th>Purpose</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Data preparation</td>
-<td>Use single-cell RNA-seq counts and phenotype labels.</td>
-</tr>
-<tr class="even">
-<td>GRN inference</td>
-<td>Learn phenotype-specific regulatory networks.</td>
-</tr>
-<tr class="odd">
-<td>RAS calculation</td>
-<td>Calculate Regulon Activity Score (RAS) values for downstream interpretation.</td>
-</tr>
-</tbody>
-</table>
-<p><a href="https://github.com/ML4BM-Lab/SimiCPipeline" class="btn btn-primary">Open SimiCPipeline repository</a></p>
-</div>
-</div>
-<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<div class="package-panel viz-panel">
-<p>Use SimiCviz when the goal is to assess, compare, and visualize GRN outputs in R / Bioconductor workflows. SimiCviz is designed to be tool-agnostic, so it can support outputs from different GRN inference approaches.</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Step</th>
-<th>Purpose</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>GRN assessment</td>
-<td>Inspect inferred network weights and summary statistics.</td>
-</tr>
-<tr class="even">
-<td>RAS visualization</td>
-<td>Compare Regulon Activity Score (RAS) patterns across labels and cell types.</td>
-</tr>
-<tr class="odd">
-<td>Reporting</td>
-<td>Generate reproducible tables and figures for downstream analysis.</td>
-</tr>
-</tbody>
-</table>
-<p><a href="https://github.com/ML4BM-Lab/SimiCviz" class="btn btn-danger">Open SimiCviz repository</a></p>
-</div>
-</div>
-</div>
+<p>SimiCviz is the R / Bioconductor component of SimiC-Suite. It supports tool-agnostic assessment, comparison, visualization, and reporting for GRN outputs, including outputs produced by SimiCPipeline.</p>
+<p>Use SimiCviz when the goal is to inspect inferred network weights, compare regulatory programs, visualize Regulon Activity Score (RAS) patterns, and generate reproducible figures and tables.</p>
+<p><a href="https://github.com/ML4BM-Lab/SimiCviz" class="btn btn-danger">View SimiCviz on GitHub</a></p>
+<section id="tutorial" class="level2">
+<h2 class="anchored" data-anchor-id="tutorial">Tutorial</h2>
+<p>The tutorial below is a local copy of the pre-rendered SimiCviz vignette from the <code>ML4BM-Lab/SimiCviz</code> repository. It is included as existing HTML so the website can publish without installing or executing R / Bioconductor dependencies.</p>
+<div class="tutorial-grid">
+<section id="simicviz-r-bioconductor-tutorial" class="level3 tutorial-card viz-card">
+<h3 class="anchored" data-anchor-id="simicviz-r-bioconductor-tutorial">SimiCviz R / Bioconductor Tutorial</h3>
+<p>Assessment and visualization workflow for GRN outputs, including loading GRN data, computing or importing Regulon Activity Score (RAS) values, visualizing weights, and comparing regulatory programs across phenotypes.</p>
+<p><a href="tutorials/simicviz/SimiCviz.html" class="btn btn-danger">Open full tutorial</a> <a href="tutorials/simicviz/SimiCviz.Rmd" class="btn btn-outline-danger">View R Markdown source</a> <a href="tutorials/simicviz/SimiCviz.R" class="btn btn-outline-danger">View R script</a></p>
+</section>
 </div>
 </section>
-<section id="suggested-workflow" class="level2">
-<h2 class="anchored" data-anchor-id="suggested-workflow">Suggested Workflow</h2>
-<ol type="1">
-<li>Prepare single-cell RNA-seq data and phenotype annotations.</li>
-<li>Run SimiCPipeline for phenotype-specific GRN inference.</li>
-<li>Calculate Regulon Activity Score (RAS) values with SimiCPipeline.</li>
-<li>Use SimiCviz to assess and visualize GRN outputs.</li>
-</ol>
+<section id="embedded-preview" class="level2">
+<h2 class="anchored" data-anchor-id="embedded-preview">Embedded Preview</h2>
+<iframe class="tutorial-frame" src="tutorials/simicviz/SimiCviz.html" title="SimiCviz rendered tutorial">
+</iframe>
 
 
 </section>

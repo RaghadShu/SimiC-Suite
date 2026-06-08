@@ -1,0 +1,2044 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>SimiCPipeline - Full Tutorial – SimiC-Suite</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-158031087360bce0ff56dc785ce39e06.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">SimiC-Suite</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../simicpipeline.html"> 
+<span class="menu-text">SimiCPipeline</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../simicviz.html"> 
+<span class="menu-text">SimiCviz</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../citation.html"> 
+<span class="menu-text">Citation</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#import-modules" id="toc-import-modules" class="nav-link" data-scroll-target="#import-modules">Import Modules</a></li>
+  <li><a href="#pipeline-steps" id="toc-pipeline-steps" class="nav-link" data-scroll-target="#pipeline-steps">Pipeline steps</a>
+  <ul class="collapse">
+  <li><a href="#step-1-initialize-the-pipeline" id="toc-step-1-initialize-the-pipeline" class="nav-link" data-scroll-target="#step-1-initialize-the-pipeline">Step 1: Initialize the Pipeline</a></li>
+  <li><a href="#step-2-set-input-file-paths" id="toc-step-2-set-input-file-paths" class="nav-link" data-scroll-target="#step-2-set-input-file-paths">Step 2: Set Input File Paths</a></li>
+  <li><a href="#step-3-set-parameters" id="toc-step-3-set-parameters" class="nav-link" data-scroll-target="#step-3-set-parameters">Step 3: Set Parameters</a></li>
+  <li><a href="#step-5-run-the-complete-pipeline" id="toc-step-5-run-the-complete-pipeline" class="nav-link" data-scroll-target="#step-5-run-the-complete-pipeline">Step 5: Run the Complete Pipeline</a></li>
+  </ul></li>
+  <li><a href="#how-to-continue" id="toc-how-to-continue" class="nav-link" data-scroll-target="#how-to-continue">How to continue?</a>
+  <ul class="collapse">
+  <li><a href="#check-available-results" id="toc-check-available-results" class="nav-link" data-scroll-target="#check-available-results">Check Available Results</a></li>
+  </ul></li>
+  <li><a href="#load-and-inspect-results" id="toc-load-and-inspect-results" class="nav-link" data-scroll-target="#load-and-inspect-results">Load and Inspect Results</a>
+  <ul class="collapse">
+  <li><a href="#load-filtered-weights" id="toc-load-filtered-weights" class="nav-link" data-scroll-target="#load-filtered-weights">Load Filtered Weights</a></li>
+  <li><a href="#analyze-weight-distribution" id="toc-analyze-weight-distribution" class="nav-link" data-scroll-target="#analyze-weight-distribution">Analyze Weight Distribution</a></li>
+  <li><a href="#load-filtered-auc-scores" id="toc-load-filtered-auc-scores" class="nav-link" data-scroll-target="#load-filtered-auc-scores">Load Filtered AUC Scores</a></li>
+  <li><a href="#analyze-auc-scores" id="toc-analyze-auc-scores" class="nav-link" data-scroll-target="#analyze-auc-scores">Analyze AUC Scores</a></li>
+  <li><a href="#calculate-dissimilarity-scores" id="toc-calculate-dissimilarity-scores" class="nav-link" data-scroll-target="#calculate-dissimilarity-scores">Calculate Dissimilarity Scores</a></li>
+  <li><a href="#extract-tf-specific-networks" id="toc-extract-tf-specific-networks" class="nav-link" data-scroll-target="#extract-tf-specific-networks">Extract TF-Specific Networks</a></li>
+  </ul></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps">Next Steps</a></li>
+  <li><a href="#additional-resources" id="toc-additional-resources" class="nav-link" data-scroll-target="#additional-resources">Additional Resources</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">SimiCPipeline - Full Tutorial</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<blockquote class="blockquote">
+<p><em>Author: Irene Marín-Goñi, PhD student - ML4BM group (CIMA University of Navarra)</em></p>
+</blockquote>
+<p>This notebook provides a comprehensive guide to how to use the new SimiC pipeline with all available features.</p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>This tutorial covers: 1. Package installation and setup 2. Complete pipeline initialization with all parameters 3. Running the full pipeline with filtering and AUC calculation steps 4. Follow up steps: Detailed results analysis 5. Analyze previous runs 6. Cross-validation and parameter sweeps</p>
+<p>For a simpler introduction, see <code>Tutorial_SimiCPipeline_simple.ipynb</code></p>
+</section>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>SimiC is a GRN inference algorithm for scRNA-Seq data that takes as input: - single-cell imputed expression data (not sparse) - a list of driver genes (transcription factors) - the cell labels (cell phenotypes in order)</p>
+<p>and produces TF-specific GRNs for each of the different phenotypes. Given the phenotype order, SimiC adds a similarity constraint when jointly inferring the GRNs for each phenotype, ensuring a smooth transition across phenotypes.</p>
+<pre><code>                    0 -&gt; 1; 1 -&gt; 2; 2 -&gt; 3</code></pre>
+<p>For more information check our original publication:</p>
+<p>Peng, J., Serrano, G., Traniello, I.M. et al.&nbsp;<em>SimiC enables the inference of complex gene regulatory dynamics across cell phenotypes.</em> Commun Biol 5, 351 (2022) <b>DOI</b>: <a href="https://doi.org/10.1038/s42003-022-03319-7">10.1038/s42003-022-03319-7</a>.</p>
+</section>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<p>The easiest way to configure your environment is to follow the <code>README</code> instructions using <code>poetry</code> (or <code>Docker</code>).</p>
+<p>Required packages for this tutorial: - simicpipeline - anndata - pandas - numpy - os - pickle</p>
+<p>Internally simicpipeline also uses: - scipy - sklearn</p>
+<p>We recommend preprocessing the data and set up the directory structure following the <code>Tutorial_SimiCPipeline_preprocessing.ipynb</code></p>
+</section>
+<section id="import-modules" class="level2">
+<h2 class="anchored" data-anchor-id="import-modules">Import Modules</h2>
+<p>First, import the necessary modules and set up the path.</p>
+<div id="cell-5" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(os.getcwd())</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(os.listdir())</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> simicpipeline </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"SimiC pipeline version: "</span>, {simicpipeline.__version__})</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> simicpipeline <span class="im">import</span> SimiCPipeline</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>/home/workdir
+['SimiCExampleRun', 'data']
+SimiC pipeline version:  {'0.1.0'}</code></pre>
+</div>
+</div>
+</section>
+<section id="pipeline-steps" class="level2">
+<h2 class="anchored" data-anchor-id="pipeline-steps">Pipeline steps</h2>
+<section id="step-1-initialize-the-pipeline" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-initialize-the-pipeline">Step 1: Initialize the Pipeline</h3>
+<p>Create a pipeline instance by specifying: - <code>project_dir</code>: Working directory path where input files are located and output files will be saved - <code>run_name</code>: Unique identifier for this analysis run (used as prefix for output files)</p>
+<p>We will start this tutorial with the output files generated in the preprocessing tutorial.</p>
+<div id="cell-8" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Initializing SimiC pipeline"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> SimiCPipeline(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    project_dir<span class="op">=</span><span class="st">"./SimiCExampleRun/KPB25L/Tumor"</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    run_name<span class="op">=</span><span class="st">"experiment_tumor"</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span><span class="op">*</span><span class="dv">70</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Pipeline initialized with workdir: </span><span class="sc">{</span>pipeline<span class="sc">.</span>project_dir<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span><span class="op">*</span><span class="dv">70</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>pipeline.print_project_info()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Initializing SimiC pipeline
+
+======================================================================
+Pipeline initialized with workdir: SimiCExampleRun/KPB25L/Tumor
+======================================================================
+Tumor/
+├── inputFiles/
+│   ├── TF_list.csv
+│   ├── expression_matrix.pickle
+│   └── treatment_annotation.csv
+└── outputSimic/
+    ├── figures/
+    └── matrices/
+        └── experiment_tumor/</code></pre>
+</div>
+</div>
+</section>
+<section id="step-2-set-input-file-paths" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-set-input-file-paths">Step 2: Set Input File Paths</h3>
+<p>Point the pipeline to your input files: - <code>p2df</code>: Path to expression matrix file (genes × cells) stored as a pandas DataFrame in pickle format - <code>p2tf</code>: Path to transcription factor list file (pickle format) containing TF gene names to use as drivers - <code>p2assignment</code>: Path to cell cluster assignment file containing at least one column named <code>label</code> with ordered phenotype labels (integers) matching expression matrix cell order. - <code>df_with_label</code>: Whether the dataframe contains a label column with assignment labels. (Defaut: <code>False</code>)</p>
+<div id="cell-10" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Setting input file paths"</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>pipeline.set_input_paths(</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    p2df <span class="op">=</span> pipeline.project_dir <span class="op">/</span> <span class="st">"inputFiles/expression_matrix.pickle"</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    p2tf <span class="op">=</span> pipeline.project_dir <span class="op">/</span> <span class="st">"inputFiles/TF_list.csv"</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    p2assignment <span class="op">=</span> pipeline.project_dir <span class="op">/</span> <span class="st">"inputFiles/treatment_annotation.csv"</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Setting input file paths</code></pre>
+</div>
+</div>
+</section>
+<section id="step-3-set-parameters" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-set-parameters">Step 3: Set Parameters</h3>
+<p>Set all available parameters for the SimiC regression:</p>
+<section id="core-regularization-parameters" class="level4">
+<h4 class="anchored" data-anchor-id="core-regularization-parameters">Core Regularization Parameters:</h4>
+<ul>
+<li><code>lambda1</code>: L1 regularization strength controlling sparsity in the learned networks (higher values $$ sparser networks with fewer edges, default: <span class="math inline">\(1e^{-1}\)</span>)</li>
+<li><code>lambda2</code>: L2 regularization strength controlling similarity between adjacent phenotype networks (higher values $$ more similar networks across phenotypes, default: <span class="math inline">\(1e^{-5}\)</span>)</li>
+<li><code>similarity</code>: Boolean flag to enable similarity-based clustering when inferring GRNs (default: <code>True</code>)</li>
+</ul>
+</section>
+<section id="algorithm-parameters" class="level4">
+<h4 class="anchored" data-anchor-id="algorithm-parameters">Algorithm Parameters:</h4>
+<ul>
+<li><code>max_rcd_iter</code>: Maximum number of iterations for the coordinate descent optimization algorithm (default: 50000)</li>
+</ul>
+<div class="alert alert-block alert-danger">
+<p><b> IMPORTANT NOTE:</b> This parameter controls the number of iterations of the algorithm and will strongly influence the time it takes to run</p>
+</div>
+</section>
+<section id="cross-validation-parameters" class="level4">
+<h4 class="anchored" data-anchor-id="cross-validation-parameters">Cross-Validation Parameters:</h4>
+<ul>
+<li><code>cross_val</code>: Boolean flag to enable cross-validation for automatic parameter selection (default: False)</li>
+<li><code>k_cross_val</code>: Integer for the number of folds for cross-validation (default: 5)</li>
+<li><code>max_rcd_iter_cv</code>: SImilar to <code>max_rcd_iter</code>. To speed up the process the default value is 10000.</li>
+<li><code>list_of_l1</code>: List of lambda1 values to test during cross-validation (e.g., [10, 1, 1e-1, 1e-2, 1e-4])</li>
+<li><code>list_of_l2</code>: List of lambda2 values to test during cross-validation (e.g., [1e-1, 1e-2, 1e-3, 1e-4, 1e-5])</li>
+</ul>
+<div class="alert alert-block alert-danger">
+<p><b>IMPORTANT NOTE:</b> Cross-validation with multiple lambda values is computationally intensive and may take several hours depending on data size, max_rcd_iter_cv and parameter grid complexity.</p>
+</div>
+<div id="cell-12" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Setting custom parameters"</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>pipeline.set_parameters(</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    lambda1<span class="op">=</span><span class="fl">1e-1</span>, <span class="co"># Will be optimized if cross-validation = True</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    lambda2<span class="op">=</span><span class="fl">1e-2</span>, <span class="co"># Will be optimized by cross-validation = True</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    similarity<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    max_rcd_iter<span class="op">=</span><span class="dv">5000</span>, <span class="co"># For demonstration purposes we set a smaller number of max iterations, udually 50000</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    cross_val<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    k_cross_val<span class="op">=</span><span class="dv">4</span>,</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    max_rcd_iter_cv<span class="op">=</span><span class="dv">1000</span>, <span class="co"># For demonstration purposes we set a smaller number of max iterations for cross-validation, usually 5000</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    list_of_l1<span class="op">=</span>[<span class="fl">1e-1</span>, <span class="fl">1e-2</span>],  <span class="co"># Example: [10, 1, 1e-1, 1e-2, 1e-4]</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    list_of_l2<span class="op">=</span>[<span class="fl">1e-2</span>, <span class="fl">1e-3</span>] <span class="co"># Example: [1e-1, 1e-2, 1e-3, 1e-4, 1e-5]</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Setting custom parameters</code></pre>
+</div>
+</div>
+<p><a id="step4"></a> ### Step 4: Configure AUC Calculation Parameters</p>
+<div class="alert alert-block alert-warning">
+<p>Except for <code>adj_r2_threshold</code> the other parameters are rarely used but are available in SimiC-Jianhao</p>
+</div>
+<p>Define parameters for Area Under Curve calculation which measures TF activity scores: - <code>adj_r2_threshold</code>: Minimum adjusted R² value for filtering target genes based on regression quality (range: 0-1, typical: 0.7) - <code>select_top_k_targets</code>: Number of top-ranked targets to include per TF (None: use all targets, integer: specific number) - <code>percent_of_target</code>: Percentage of targets to include after ranking (range: 0-1, default: 1 for 100%) - <code>sort_by</code>: Criterion for ranking and selecting targets (‘expression’: by mean expression level, ‘weight’: by network weight, ‘adj_r2’: by adjusted R² value) - <code>num_cores</code>: Number of CPU cores to use for parallel processing (-1: use all available cores, numbers below -1 will use [#total cores + 1 + num_cores]). Default: 1.</p>
+<div id="cell-14" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>auc_params <span class="op">=</span> {</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'adj_r2_threshold'</span>: <span class="fl">0.7</span>,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'select_top_k_targets'</span>: <span class="va">None</span>,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'percent_of_target'</span>: <span class="dv">1</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'sort_by'</span>: <span class="st">'expression'</span>,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'num_cores'</span>: <span class="op">-</span><span class="dv">2</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Validate the inputs before run the pipeline</p>
+<div id="cell-16" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>pipeline.validate_inputs()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>✓ All required input files found</code></pre>
+</div>
+</div>
+<p><a id="step5"></a></p>
+</section>
+</section>
+<section id="step-5-run-the-complete-pipeline" class="level3">
+<h3 class="anchored" data-anchor-id="step-5-run-the-complete-pipeline">Step 5: Run the Complete Pipeline</h3>
+<p>Executing the full pipeline in one command is easy with this implementation.</p>
+<p>Steps incuded: 1. Input validation 2. SimiC regression 3. Weight filtering 4. AUC calculation</p>
+<section id="custom-pipeline-execution-options" class="level4">
+<h4 class="anchored" data-anchor-id="custom-pipeline-execution-options">Custom Pipeline Execution Options:</h4>
+<ul>
+<li><code>skip_filtering</code>: If <code>True</code>, skips the weight filtering step that removes low-importance edges (default: False)</li>
+<li><code>calculate_raw_auc</code>: If <code>True</code>, calculates AUC scores on unfiltered regression weights before any filtering (default: False)</li>
+<li><code>calculate_filtered_auc</code>: If <code>True</code>, calculates AUC scores on filtered weights after removing noise (default: True)</li>
+<li><code>variance_threshold</code>: Threshold for TF selection based on variance explained - keeps TFs explaining this cumulative percentage of target variance (range: 0-1, common value: 0.9 for 90%)</li>
+<li><code>auc_params</code>: Dictionary containing all AUC calculation parameters as defined in <a href="#step4">Step4</a></li>
+</ul>
+<div id="cell-18" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Running complete SimiC pipeline..."</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"This may take several minutes depending on data size.</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>pipeline.run_pipeline(</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    skip_filtering<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    calculate_raw_auc<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    calculate_filtered_auc<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    variance_threshold<span class="op">=</span><span class="fl">0.9</span>,</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    auc_params<span class="op">=</span>auc_params</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Running complete SimiC pipeline...
+This may take several minutes depending on data size.
+
+
+======================================================================
+SIMIC PIPELINE
+======================================================================
+
+==================================================
+Running SimiC Regression
+Run name: experiment_tumor
+✓ All required input files found
+Running cross-validation with following lambdas: [0.1, 0.01] (L1), [0.01, 0.001] (L2)
+==================================================
+
+Expression matrix for regression shape =  (21490, 1100)
+df test =  (4298, 1100)
+test data assignment set: {0, 1, 2, 3}
+df train =  (17192, 1100)
+train data assignment set: {0, 1, 2, 3}
+-------
+-------
+.... generating train set
+cell type  0
+    TF size: (5034, 101)
+    Target size: (5034, 1000)
+cell type  1
+    TF size: (3929, 101)
+    Target size: (3929, 1000)
+cell type  2
+    TF size: (4754, 101)
+    Target size: (4754, 1000)
+cell type  3
+    TF size: (3475, 101)
+    Target size: (3475, 1000)
+-------
+.... generating test set
+cell type  0
+    TF size: (1205, 101)
+    Target size: (1205, 1000)
+cell type  1
+    TF size: (1035, 101)
+    Target size: (1035, 1000)
+cell type  2
+    TF size: (1141, 101)
+    Target size: (1141, 1000)
+cell type  3
+    TF size: (917, 101)
+    Target size: (917, 1000)
+-------
+
+----------------------------------------------------------------------
+Start cross validation!!!
+----------------------------------------------------------------------
+
+Trying lambda1 = [0.1, 0.01] and lambda2 = [0.01, 0.001]
+lambda1 = 0.1, lamda2 = 0.01, done
+----&gt; Averaged adjusetd R2 = 0.4244
+----&gt; R2 in folds = [0.4512, 0.4380, 0.4167, 0.3918]
+////////
+lambda1 = 0.1, lamda2 = 0.001, done
+----&gt; Averaged adjusetd R2 = 0.4243
+----&gt; R2 in folds = [0.4514, 0.4379, 0.4163, 0.3916]
+////////
+lambda1 = 0.01, lamda2 = 0.01, done
+----&gt; Averaged adjusetd R2 = 0.6407
+----&gt; R2 in folds = [0.6647, 0.6571, 0.6355, 0.6054]
+////////
+lambda1 = 0.01, lamda2 = 0.001, done
+----&gt; Averaged adjusetd R2 = 0.6411
+----&gt; R2 in folds = [0.6651, 0.6555, 0.6374, 0.6065]
+////////
+Cross Validation done! 
+
+Selected: lambda1 = 0.01, lambda2 = 0.001, opt R squared on eval 0.6411
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Begin the SimiC Regression!!!
+----------------------------------------------------------------------
+
+-------
+final train error w.o. reg = 203.9880 +/- 0.0000 SD
+test error w.o. reg = 210.6154 +/- 0.0000 SD
+-------
+R squared of test set (before): -14.5708
+R squared of train set (after): 0.8148 +/- 0.0000 SD
+R squared of test set (after): 0.8039 +/- 0.0000 SD
+Pickle method succeeded, saved to SimiCExampleRun/KPB25L/Tumor/outputSimic/matrices/experiment_tumor/experiment_tumor_L1_0.01_L2_0.001_simic_matrices.pickle
+Updated lambdas from cross-validation: L1=0.01, L2=0.001
+
+✓ SimiC regression completed in 5min 37s
+
+==================================================
+Filtering weights using BIC criterion
+Variance threshold: 0.9
+==================================================
+
+Loaded weights for 4 phenotype labels
+Number of TFs: 100
+Number of targets: 1000
+
+Processing label 0...
+  Targets with non-zero weights: 1000/1000
+  TFs kept per target: Mean=21.86, Median=22, Max=40, Min=7
+
+Processing label 1...
+  Targets with non-zero weights: 1000/1000
+  TFs kept per target: Mean=23.06, Median=24, Max=43, Min=8
+
+Processing label 2...
+  Targets with non-zero weights: 1000/1000
+  TFs kept per target: Mean=22.32, Median=23, Max=41, Min=7
+
+Processing label 3...
+  Targets with non-zero weights: 1000/1000
+  TFs kept per target: Mean=21.00, Median=21, Max=41, Min=2
+
+✓ Weight filtering completed in 32s
+Filtered weights saved to: SimiCExampleRun/KPB25L/Tumor/outputSimic/matrices/experiment_tumor/experiment_tumor_L1_0.01_L2_0.001_simic_matrices_filtered_BIC.pickle
+
+==================================================
+Calculating AUC matrices (filtered weights)
+==================================================
+
+Using all available cores for parallel processing.
+Pickle method succeeded, saved to SimiCExampleRun/KPB25L/Tumor/outputSimic/matrices/experiment_tumor/experiment_tumor_L1_0.01_L2_0.001_wAUC_matrices_filtered_BIC.pickle
+
+✓ AUC calculation completed in 9min 33s
+
+Collecting AUC for all labels...
+✓ Collected AUC for all labels saved to: SimiCExampleRun/KPB25L/Tumor/outputSimic/matrices/experiment_tumor/experiment_tumor_L1_0.01_L2_0.001_wAUC_matrices_filtered_BIC_collected.csv
+
+======================================================================
+PIPELINE EXECUTION SUMMARY
+======================================================================
+
+Run name: experiment_tumor
+Project directory: SimiCExampleRun/KPB25L/Tumor
+
+Parameters:
+  - Lambda1: 0.01
+  - Lambda2: 0.001
+  - Number of TFs: 100
+  - Number of targets: 1000
+
+Timing:
+  - simic_regression: 5min 37s
+  - filtering: 32s
+  - auc_filtered: 9min 33s
+  - total: 15min 46s
+
+Available Results:
+✓ Ws_raw
+✓ Ws_filtered
+✗ auc_raw
+✓ auc_filtered
+
+======================================================================
+
+======================================================================</code></pre>
+</div>
+</div>
+<div class="alert alert-block alert-success">
+<p><b>Success!</b></p>
+</div>
+<div id="cell-20" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>pipeline.print_project_info(max_depth<span class="op">=</span><span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Tumor/
+├── inputFiles/
+│   ├── TF_list.csv
+│   ├── expression_matrix.pickle
+│   └── treatment_annotation.csv
+└── outputSimic/
+    ├── figures/
+    └── matrices/
+        └── experiment_tumor/
+            ├── experiment_tumor_L1_0.01_L2_0.001_simic_matrices.pickle
+            ├── experiment_tumor_L1_0.01_L2_0.001_simic_matrices_filtered_BIC.pickle
+            ├── experiment_tumor_L1_0.01_L2_0.001_wAUC_matrices_filtered_BIC.pickle
+            └── experiment_tumor_L1_0.01_L2_0.001_wAUC_matrices_filtered_BIC_collected.csv</code></pre>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="how-to-continue" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-continue">How to continue?</h2>
+<p>In this section we will show a quick overview of all results generated by the <code>SimiCPipeline</code> run. All the important results are automatically saved but if you want to explore and save some of them in different format here are some examples on how to do that.</p>
+<p>For advanced visualizations see the <code>Tutorial_SimiCPipeline_visualization</code></p>
+<section id="check-available-results" class="level3">
+<h3 class="anchored" data-anchor-id="check-available-results">Check Available Results</h3>
+<p><a id="load"></a></p>
+<p>If you stoped the pipeline and want to resume it later, you should re-initialize the pipeline using the same paths and lambda parameters. This way <code>pipeline.available_results()</code> will look for filenames in the corresponding directory and check if they exist.</p>
+<div id="cell-23" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> simicpipeline <span class="im">import</span> SimiCPipeline</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> SimiCPipeline(</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    project_dir<span class="op">=</span><span class="st">"./SimiCExampleRun/KPB25L/Tumor"</span>,</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    run_name<span class="op">=</span><span class="st">"experiment_tumor"</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>pipeline.set_input_paths(</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    p2df <span class="op">=</span> pipeline.project_dir <span class="op">/</span> <span class="st">"inputFiles/expression_matrix.pickle"</span>,</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    p2assignment <span class="op">=</span> pipeline.project_dir <span class="op">/</span> <span class="st">"inputFiles/treatment_annotation.csv"</span>,</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    p2tf <span class="op">=</span> pipeline.project_dir <span class="op">/</span> <span class="st">"inputFiles/TF_list.csv"</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>pipeline.set_parameters(</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    lambda1<span class="op">=</span><span class="fl">1e-2</span>,</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    lambda2<span class="op">=</span><span class="fl">1e-3</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>pipeline._print_summary()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+======================================================================
+PIPELINE EXECUTION SUMMARY
+======================================================================
+
+Run name: experiment_tumor
+Project directory: SimiCExampleRun/KPB25L/Tumor
+
+Parameters:
+  - Lambda1: 0.01
+  - Lambda2: 0.001
+  - Number of TFs: 100
+  - Number of targets: 1000
+
+Timing:
+
+Available Results:
+✓ Ws_raw
+✓ Ws_filtered
+✗ auc_raw
+✓ auc_filtered
+
+======================================================================
+
+======================================================================</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="load-and-inspect-results" class="level2">
+<h2 class="anchored" data-anchor-id="load-and-inspect-results">Load and Inspect Results</h2>
+<p>Here we show how to access each item generated in the pipeline for your convinience (you can further analyze/explore them).</p>
+<p>We designed a <code>load_results</code> function so you can easily access all the pipeline results. - <code>result_type</code>: can be <code>'Ws_raw'</code>, <code>'Ws_filtered'</code>, <code>'auc_raw'</code> or <code>'auc_filtered'</code></p>
+<section id="load-filtered-weights" class="level3">
+<h3 class="anchored" data-anchor-id="load-filtered-weights">Load Filtered Weights</h3>
+<p>Access the filtered weight matrices for downstream analysis.</p>
+<div id="cell-27" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span><span class="op">*</span><span class="dv">70</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Accessing filtered weights...</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>simic_results <span class="op">=</span> pipeline.load_results(<span class="st">'Ws_filtered'</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"SimiC results keys: </span><span class="sc">{</span><span class="bu">list</span>(simic_results.keys())<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>weight_dic <span class="op">=</span> simic_results[<span class="st">'weight_dic'</span>]</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Weight dictionary keys (labels): </span><span class="sc">{</span><span class="bu">list</span>(weight_dic.keys())<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of cell populations: </span><span class="sc">{</span><span class="bu">len</span>(weight_dic)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect first population</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>first_label <span class="op">=</span> <span class="bu">list</span>(weight_dic.keys())[<span class="dv">0</span>]</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>first_weights <span class="op">=</span> weight_dic[first_label]</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Weight matrix for label </span><span class="sc">{</span>first_label<span class="sc">}</span><span class="ss">:"</span>)</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Shape: </span><span class="sc">{</span>first_weights<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Non-zero entries: </span><span class="sc">{</span>(first_weights <span class="op">!=</span> <span class="dv">0</span>)<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(first_weights[<span class="dv">0</span>:<span class="dv">3</span>,<span class="dv">0</span>:<span class="dv">5</span>],index <span class="op">=</span> simic_results[<span class="st">'TF_ids'</span>][<span class="dv">0</span>:<span class="dv">3</span>], columns<span class="op">=</span>simic_results[<span class="st">'query_targets'</span>][<span class="dv">0</span>:<span class="dv">5</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>======================================================================
+Accessing filtered weights...
+
+SimiC results keys: ['weight_dic', 'adjusted_r_squared', 'standard_error', 'TF_ids', 'query_targets']
+
+Weight dictionary keys (labels): [0, 1, 2, 3]
+Number of cell populations: 4
+
+Weight matrix for label 0:
+  Shape: (101, 1000)
+  Non-zero entries: 22858</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Malat1</th>
+<th data-quarto-table-cell-role="th">Rn18s-rs5</th>
+<th data-quarto-table-cell-role="th">Cp</th>
+<th data-quarto-table-cell-role="th">Brinp3</th>
+<th data-quarto-table-cell-role="th">Cmss1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Pms1</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.000000</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Tshz1</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>-0.919577</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Wdhd1</th>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.000000</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="analyze-weight-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="analyze-weight-distribution">Analyze Weight Distribution</h3>
+<p>Generate summary statistics of the learned weights.</p>
+<p>This function compares the sparsity of the network before and after filtering weights by BIC criterion (keeping only the top TFs that explain at least <code>variance_threshold</code> of the variance for each target gene, <a href="#step5">Step5</a>).</p>
+<div id="cell-29" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>pipeline.analyze_weights()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+======================================================================
+ANALYZING WEIGHT MATRICES
+======================================================================
+
+Label 0:
+  Raw weights:
+    - Sparsity: 0.00%
+    - Avg non-zero TFs per target: 100.00
+  Filtered weights:
+    - Sparsity: 78.14%
+    - Avg non-zero TFs per target: 21.86
+  Reduction: 78.14% more sparse
+
+Label 1:
+  Raw weights:
+    - Sparsity: 0.00%
+    - Avg non-zero TFs per target: 100.00
+  Filtered weights:
+    - Sparsity: 76.94%
+    - Avg non-zero TFs per target: 23.06
+  Reduction: 76.94% more sparse
+
+Label 2:
+  Raw weights:
+    - Sparsity: 0.00%
+    - Avg non-zero TFs per target: 100.00
+  Filtered weights:
+    - Sparsity: 77.68%
+    - Avg non-zero TFs per target: 22.32
+  Reduction: 77.68% more sparse
+
+Label 3:
+  Raw weights:
+    - Sparsity: 0.00%
+    - Avg non-zero TFs per target: 100.00
+  Filtered weights:
+    - Sparsity: 79.00%
+    - Avg non-zero TFs per target: 21.00
+  Reduction: 79.00% more sparse
+</code></pre>
+</div>
+</div>
+</section>
+<section id="load-filtered-auc-scores" class="level3">
+<h3 class="anchored" data-anchor-id="load-filtered-auc-scores">Load Filtered AUC Scores</h3>
+<p>Examine the filtered AUC scores.</p>
+<div id="cell-31" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span><span class="op">*</span><span class="dv">70</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Accessing filtered AUC scores...</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>auc_filtered <span class="op">=</span> pipeline.load_results(<span class="st">'auc_filtered'</span>)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"AUC dictionary keys (labels): </span><span class="sc">{</span><span class="bu">list</span>(auc_filtered.keys())<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of cell populations: </span><span class="sc">{</span><span class="bu">len</span>(auc_filtered)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Shape of AUC matrix for first label (unprocessed):"</span>, auc_filtered[<span class="dv">0</span>].shape)</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span><span class="op">*</span><span class="dv">70</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>======================================================================
+Accessing filtered AUC scores...
+
+AUC dictionary keys (labels): [0, 1, 2, 3]
+Number of cell populations: 4
+Shape of AUC matrix for first label (unprocessed): (21490, 100)
+======================================================================</code></pre>
+</div>
+</div>
+<div class="alert alert-block alert-warning">
+<p>Note that each key in the dictionary corresponds to a label in the data but the AUC matrices outputted have values for all the cells (original_matrix shape)</p>
+</div>
+<p>You need to subset the AUC matrix to get only the cells corresponding to that label.</p>
+<p>For that we have the following handy function (also used internally by <code>pipeline.subset_label_specific_auc()</code> that loads the AUC data and subsets for specific cells as shown below:</p>
+<div id="cell-33" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>auc_subset <span class="op">=</span> pipeline.subset_label_specific_auc( result_type <span class="op">=</span> <span class="st">'auc_filtered'</span>,label<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co"># you can now calculate the statistics on the subsetted AUC matrix</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  AUC score statistics:"</span>)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Shape: </span><span class="sc">{</span>auc_subset<span class="sc">.</span>shape<span class="sc">}</span><span class="ss"> (cells x TFs)"</span>)</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"    - Mean: </span><span class="sc">{</span>np<span class="sc">.</span>nanmean(auc_subset.values)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>auc_subset.head(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  AUC score statistics:
+  Shape: (6239, 100) (cells x TFs)
+    - Mean: 0.4592</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Pms1</th>
+<th data-quarto-table-cell-role="th">Tshz1</th>
+<th data-quarto-table-cell-role="th">Wdhd1</th>
+<th data-quarto-table-cell-role="th">Rere</th>
+<th data-quarto-table-cell-role="th">Tead4</th>
+<th data-quarto-table-cell-role="th">Mecom</th>
+<th data-quarto-table-cell-role="th">Nr1h5</th>
+<th data-quarto-table-cell-role="th">Tead1</th>
+<th data-quarto-table-cell-role="th">Foxn3</th>
+<th data-quarto-table-cell-role="th">Tfdp2</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">Creb3l2</th>
+<th data-quarto-table-cell-role="th">Zfp950</th>
+<th data-quarto-table-cell-role="th">Trps1</th>
+<th data-quarto-table-cell-role="th">Hivep2</th>
+<th data-quarto-table-cell-role="th">Aff2</th>
+<th data-quarto-table-cell-role="th">Gtf2i</th>
+<th data-quarto-table-cell-role="th">Bbx</th>
+<th data-quarto-table-cell-role="th">Fosl1</th>
+<th data-quarto-table-cell-role="th">Arid5b</th>
+<th data-quarto-table-cell-role="th">Tulp4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">01_01_28__s1</th>
+<td>0.401697</td>
+<td>0.331343</td>
+<td>0.312967</td>
+<td>0.457909</td>
+<td>0.419254</td>
+<td>0.335233</td>
+<td>0.398261</td>
+<td>0.484048</td>
+<td>0.439490</td>
+<td>0.452826</td>
+<td>...</td>
+<td>0.255514</td>
+<td>0.518625</td>
+<td>0.438519</td>
+<td>0.539573</td>
+<td>0.418137</td>
+<td>0.397457</td>
+<td>0.611732</td>
+<td>0.640829</td>
+<td>0.439133</td>
+<td>0.518133</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">01_01_62__s1</th>
+<td>0.301913</td>
+<td>0.361450</td>
+<td>0.211921</td>
+<td>0.532261</td>
+<td>0.418367</td>
+<td>0.422623</td>
+<td>0.285906</td>
+<td>0.468733</td>
+<td>0.481279</td>
+<td>0.393999</td>
+<td>...</td>
+<td>0.322578</td>
+<td>0.511813</td>
+<td>0.531098</td>
+<td>0.665322</td>
+<td>0.494860</td>
+<td>0.594714</td>
+<td>0.725136</td>
+<td>0.462431</td>
+<td>0.611774</td>
+<td>0.663357</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">01_02_38__s1</th>
+<td>0.307675</td>
+<td>0.389989</td>
+<td>0.227622</td>
+<td>0.521038</td>
+<td>0.448241</td>
+<td>0.429574</td>
+<td>0.280809</td>
+<td>0.434074</td>
+<td>0.541557</td>
+<td>0.462338</td>
+<td>...</td>
+<td>0.430952</td>
+<td>0.503680</td>
+<td>0.489732</td>
+<td>0.625177</td>
+<td>0.485962</td>
+<td>0.504431</td>
+<td>0.573783</td>
+<td>0.537172</td>
+<td>0.502197</td>
+<td>0.556878</td>
+</tr>
+</tbody>
+</table>
+
+<p>3 rows × 100 columns</p>
+</div>
+</div>
+</div>
+<p>Notice in the output of <a href="#step5">Step 5</a> that we have generated a file named <code>&lt;id_name&gt;_wAUC_matrices_filtered_BIC_collected.csv</code>. This data frame contains the activity scores already extracted for each of your phenotypes. You can easily incorporate this data into your Seurat/SingleCellExperiment/AnnData metadata and visualize it in UMAP. See <code>Tutorial_SImiCPipeline_visualization.ipynb</code> for an examples.</p>
+<p>If you want to access all the activity scores you can just reload the data frame:</p>
+<div id="cell-35" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Complete File name SimiCExampleRun/KPB25L/Tumor/outputSimic/matrices/experiment_tumor/experiment_tumor_L1_0.1_L2_0.01_wAUC_matrices_filtered_BIC_collected.csv</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>auc_subset_all <span class="op">=</span> pd.read_csv(pipeline.p2auc_filtered.with_name(pipeline.p2auc_filtered.stem <span class="op">+</span> <span class="st">"_collected.csv"</span>), index_col<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Shape of collected AUC subset:"</span>, auc_subset_all.shape)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>auc_subset_all.head(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Shape of collected AUC subset: (21490, 100)</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="18">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Pms1</th>
+<th data-quarto-table-cell-role="th">Tshz1</th>
+<th data-quarto-table-cell-role="th">Wdhd1</th>
+<th data-quarto-table-cell-role="th">Rere</th>
+<th data-quarto-table-cell-role="th">Tead4</th>
+<th data-quarto-table-cell-role="th">Mecom</th>
+<th data-quarto-table-cell-role="th">Nr1h5</th>
+<th data-quarto-table-cell-role="th">Tead1</th>
+<th data-quarto-table-cell-role="th">Foxn3</th>
+<th data-quarto-table-cell-role="th">Tfdp2</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">Creb3l2</th>
+<th data-quarto-table-cell-role="th">Zfp950</th>
+<th data-quarto-table-cell-role="th">Trps1</th>
+<th data-quarto-table-cell-role="th">Hivep2</th>
+<th data-quarto-table-cell-role="th">Aff2</th>
+<th data-quarto-table-cell-role="th">Gtf2i</th>
+<th data-quarto-table-cell-role="th">Bbx</th>
+<th data-quarto-table-cell-role="th">Fosl1</th>
+<th data-quarto-table-cell-role="th">Arid5b</th>
+<th data-quarto-table-cell-role="th">Tulp4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">01_01_28__s1</th>
+<td>0.401697</td>
+<td>0.331343</td>
+<td>0.312967</td>
+<td>0.457909</td>
+<td>0.419254</td>
+<td>0.335233</td>
+<td>0.398261</td>
+<td>0.484048</td>
+<td>0.439490</td>
+<td>0.452826</td>
+<td>...</td>
+<td>0.255514</td>
+<td>0.518625</td>
+<td>0.438519</td>
+<td>0.539573</td>
+<td>0.418137</td>
+<td>0.397457</td>
+<td>0.611732</td>
+<td>0.640829</td>
+<td>0.439133</td>
+<td>0.518133</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">01_01_62__s1</th>
+<td>0.301913</td>
+<td>0.361450</td>
+<td>0.211921</td>
+<td>0.532261</td>
+<td>0.418367</td>
+<td>0.422623</td>
+<td>0.285906</td>
+<td>0.468733</td>
+<td>0.481279</td>
+<td>0.393999</td>
+<td>...</td>
+<td>0.322578</td>
+<td>0.511813</td>
+<td>0.531098</td>
+<td>0.665322</td>
+<td>0.494860</td>
+<td>0.594714</td>
+<td>0.725136</td>
+<td>0.462431</td>
+<td>0.611774</td>
+<td>0.663357</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">01_02_38__s1</th>
+<td>0.307675</td>
+<td>0.389989</td>
+<td>0.227622</td>
+<td>0.521038</td>
+<td>0.448241</td>
+<td>0.429574</td>
+<td>0.280809</td>
+<td>0.434074</td>
+<td>0.541557</td>
+<td>0.462338</td>
+<td>...</td>
+<td>0.430952</td>
+<td>0.503680</td>
+<td>0.489732</td>
+<td>0.625177</td>
+<td>0.485962</td>
+<td>0.504431</td>
+<td>0.573783</td>
+<td>0.537172</td>
+<td>0.502197</td>
+<td>0.556878</td>
+</tr>
+</tbody>
+</table>
+
+<p>3 rows × 100 columns</p>
+</div>
+</div>
+</div>
+<p>Or re-generated it like this:</p>
+<div id="cell-37" class="cell" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>auc_subset_list <span class="op">=</span> []</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> label <span class="kw">in</span> [<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>]:</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    auc_subset <span class="op">=</span> pipeline.subset_label_specific_auc(<span class="st">'auc_filtered'</span>, label<span class="op">=</span>label)</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    auc_subset_list.append(auc_subset)</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>auc_subset_all <span class="op">=</span> pd.concat(auc_subset_list, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Shape of collected AUC subset:"</span>, auc_subset_all.shape)</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>auc_subset_all.head(<span class="dv">3</span>)</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="co"># auc_subset_all.to_csv("auc_filtered_collected.csv")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Shape of collected AUC subset: (21490, 100)</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="19">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Pms1</th>
+<th data-quarto-table-cell-role="th">Tshz1</th>
+<th data-quarto-table-cell-role="th">Wdhd1</th>
+<th data-quarto-table-cell-role="th">Rere</th>
+<th data-quarto-table-cell-role="th">Tead4</th>
+<th data-quarto-table-cell-role="th">Mecom</th>
+<th data-quarto-table-cell-role="th">Nr1h5</th>
+<th data-quarto-table-cell-role="th">Tead1</th>
+<th data-quarto-table-cell-role="th">Foxn3</th>
+<th data-quarto-table-cell-role="th">Tfdp2</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">Creb3l2</th>
+<th data-quarto-table-cell-role="th">Zfp950</th>
+<th data-quarto-table-cell-role="th">Trps1</th>
+<th data-quarto-table-cell-role="th">Hivep2</th>
+<th data-quarto-table-cell-role="th">Aff2</th>
+<th data-quarto-table-cell-role="th">Gtf2i</th>
+<th data-quarto-table-cell-role="th">Bbx</th>
+<th data-quarto-table-cell-role="th">Fosl1</th>
+<th data-quarto-table-cell-role="th">Arid5b</th>
+<th data-quarto-table-cell-role="th">Tulp4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">01_01_28__s1</th>
+<td>0.401697</td>
+<td>0.331343</td>
+<td>0.312967</td>
+<td>0.457909</td>
+<td>0.419254</td>
+<td>0.335233</td>
+<td>0.398261</td>
+<td>0.484048</td>
+<td>0.439490</td>
+<td>0.452826</td>
+<td>...</td>
+<td>0.255514</td>
+<td>0.518625</td>
+<td>0.438519</td>
+<td>0.539573</td>
+<td>0.418137</td>
+<td>0.397457</td>
+<td>0.611732</td>
+<td>0.640829</td>
+<td>0.439133</td>
+<td>0.518133</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">01_01_62__s1</th>
+<td>0.301913</td>
+<td>0.361450</td>
+<td>0.211921</td>
+<td>0.532261</td>
+<td>0.418367</td>
+<td>0.422623</td>
+<td>0.285906</td>
+<td>0.468733</td>
+<td>0.481279</td>
+<td>0.393999</td>
+<td>...</td>
+<td>0.322578</td>
+<td>0.511813</td>
+<td>0.531098</td>
+<td>0.665322</td>
+<td>0.494860</td>
+<td>0.594714</td>
+<td>0.725136</td>
+<td>0.462431</td>
+<td>0.611774</td>
+<td>0.663357</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">01_02_38__s1</th>
+<td>0.307675</td>
+<td>0.389989</td>
+<td>0.227622</td>
+<td>0.521038</td>
+<td>0.448241</td>
+<td>0.429574</td>
+<td>0.280809</td>
+<td>0.434074</td>
+<td>0.541557</td>
+<td>0.462338</td>
+<td>...</td>
+<td>0.430952</td>
+<td>0.503680</td>
+<td>0.489732</td>
+<td>0.625177</td>
+<td>0.485962</td>
+<td>0.504431</td>
+<td>0.573783</td>
+<td>0.537172</td>
+<td>0.502197</td>
+<td>0.556878</td>
+</tr>
+</tbody>
+</table>
+
+<p>3 rows × 100 columns</p>
+</div>
+</div>
+</div>
+</section>
+<section id="analyze-auc-scores" class="level3">
+<h3 class="anchored" data-anchor-id="analyze-auc-scores">Analyze AUC Scores</h3>
+<p>Examine the distribution of TF-target predicted activity scores in each phenotype label.</p>
+<div id="cell-39" class="cell" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>pipeline.analyze_auc_scores()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+======================================================================
+ANALYZING AUC SCORES
+======================================================================
+
+Label 0:
+  Shape: (6239, 100) (cells x TFs)
+  AUC score statistics:
+    - Mean: 0.4592
+    - Median: 0.4707
+    - Std: 0.1196
+    - Min: 0.1186
+    - Max: 0.9230
+  Top 5 TFs by average AUC:
+    - Bbx: 0.6251
+    - Hivep2: 0.6143
+    - Arnt: 0.6104
+    - Baz2b: 0.6059
+    - Nfia: 0.6030
+
+Label 1:
+  Shape: (4964, 100) (cells x TFs)
+  AUC score statistics:
+    - Mean: 0.4519
+    - Median: 0.4598
+    - Std: 0.1149
+    - Min: 0.1120
+    - Max: 0.9788
+  Top 5 TFs by average AUC:
+    - Tcf12: 0.6197
+    - Ncor2: 0.6185
+    - Rfx3: 0.6145
+    - Tulp4: 0.6065
+    - Bbx: 0.5929
+
+Label 2:
+  Shape: (5895, 100) (cells x TFs)
+  AUC score statistics:
+    - Mean: 0.4372
+    - Median: 0.4443
+    - Std: 0.1220
+    - Min: 0.0270
+    - Max: 0.8669
+  Top 5 TFs by average AUC:
+    - Baz2b: 0.6936
+    - Rere: 0.6284
+    - Mef2a: 0.6115
+    - Zmiz1: 0.5933
+    - Tcf12: 0.5803
+
+Label 3:
+  Shape: (4392, 100) (cells x TFs)
+  AUC score statistics:
+    - Mean: 0.4238
+    - Median: 0.4342
+    - Std: 0.1155
+    - Min: 0.0060
+    - Max: 0.9749
+  Top 5 TFs by average AUC:
+    - Tcf12: 0.6564
+    - Rere: 0.6394
+    - Runx1: 0.5713
+    - Baz2b: 0.5670
+    - Cux1: 0.5511
+</code></pre>
+</div>
+</div>
+</section>
+<section id="calculate-dissimilarity-scores" class="level3">
+<h3 class="anchored" data-anchor-id="calculate-dissimilarity-scores">Calculate Dissimilarity Scores</h3>
+<p>Compute dissimilar regulons between phenotype populations.</p>
+<section id="all-labels" class="level4">
+<h4 class="anchored" data-anchor-id="all-labels">All Labels</h4>
+<p>If all labels are selected it will calculate the min-max difference among them (independently of the label order: 0,1,2)</p>
+<div id="cell-42" class="cell" data-execution_count="21">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"----&gt; For all labels:"</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>MinMax_all <span class="op">=</span> pipeline.calculate_dissimilarity()</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Dissimilarity matrix shape: </span><span class="sc">{</span>MinMax_all<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(MinMax_all))</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="co"># MinMax_all.head()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>----&gt; For all labels:
+
+======================================================================
+CALCULATING DISSIMILARITY SCORES ACROSS LABELS
+======================================================================
+
+
+Calculating dissimilarity scores...
+
+Top 10 TFs by MinMax dissimilarity score:
+  Zfp950: 0.6234
+  Nfat5: 0.6198
+  Twist2: 0.6087
+  Esr1: 0.6077
+  Tead1: 0.5861
+  Etv6: 0.5816
+  Runx1: 0.5729
+  Tcf7l2: 0.5686
+  Arid1b: 0.5686
+  Trps1: 0.5588
+
+Dissimilarity matrix shape: (100, 1)
+&lt;class 'pandas.core.frame.DataFrame'&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="specific-labels" class="level4">
+<h4 class="anchored" data-anchor-id="specific-labels">Specific Labels</h4>
+<p>Calculate dissimilarity between selected labels only. - <code>select_labels</code>: List of integer labels to include in dissimilarity calculation (e.g., [0, 3] for comparing populations 0 and 3)</p>
+<div id="cell-44" class="cell" data-execution_count="22">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>MinMax_0_3 <span class="op">=</span> pipeline.calculate_dissimilarity(select_labels<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">3</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+======================================================================
+CALCULATING DISSIMILARITY SCORES ACROSS LABELS
+======================================================================
+
+Comparing labels [0, 3].
+
+Calculating dissimilarity scores...
+
+Top 10 TFs by MinMax dissimilarity score:
+  Runx1: 0.9709
+  Tead1: 0.9571
+  Esr1: 0.9453
+  Rere: 0.9186
+  Zfp950: 0.9047
+  Etv5: 0.9005
+  Trps1: 0.8617
+  Ets1: 0.8521
+  Nfia: 0.8162
+  Etv6: 0.8145</code></pre>
+</div>
+</div>
+<ul>
+<li><code>result_type</code>: Name of the AUC results to load (‘auc_raw’ for unfiltered or ‘auc_filtered’ for filtered weights)</li>
+<li><code>label</code>: Integer specifying which cell phenotype/population to extract (must match labels in assignment file)</li>
+</ul>
+</section>
+</section>
+<section id="extract-tf-specific-networks" class="level3">
+<h3 class="anchored" data-anchor-id="extract-tf-specific-networks">Extract TF-Specific Networks</h3>
+<p>Get the regulatory network for specific transcription factors. - <code>TF_name</code>: Name of the transcription factor gene (must be present in the TF list provided to the pipeline) - <code>stacked</code>: If <code>True</code>, returns a pandas DataFrame with GRN weights for all labels in separate columns; if <code>False</code>, returns a dictionary of separate pandas Series per label</p>
+<div id="cell-47" class="cell" data-execution_count="23">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Get network for Bnc2</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>tf_name <span class="op">=</span> <span class="st">"Bnc2"</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>network <span class="op">=</span> pipeline.get_TF_network(TF_name<span class="op">=</span> tf_name, stacked<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Network for </span><span class="sc">{</span>tf_name<span class="sc">}</span><span class="ss">:"</span>)</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Shape: </span><span class="sc">{</span>network<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Columns: </span><span class="sc">{</span><span class="bu">list</span>(network.columns)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Top 10 targets:"</span>)</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(network.head(<span class="dv">10</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Retrieving network for TF: Bnc2
+Network for Bnc2:
+  Shape: (809, 4)
+  Columns: [0, 1, 2, 3]
+
+Top 10 targets:
+                  0         1         2         3
+Malat1     0.000000  1.534094  0.789632  1.437999
+Rn18s-rs5 -1.547416  0.000000  0.000000 -1.029025
+Cp         0.974170 -1.060997  0.915877  1.299228
+Brinp3     2.762555  3.653162  4.099088  3.709227
+Cmss1     -0.939836  0.000000  0.000000 -0.881202
+Pcdh7      0.000000  1.529311  1.393673  4.440386
+Pnrc1      1.777511 -1.833807  1.352006  0.000000
+Sema5a     2.843518  2.130922  2.650287  3.768668
+Slit2      0.000000  2.223871  5.097978  5.389786
+Cdk14      3.651989  2.647673  4.229523  3.920700</code></pre>
+</div>
+</div>
+<div id="cell-48" class="cell" data-execution_count="24">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Get auc for Bnc2</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>tf_name <span class="op">=</span> [<span class="st">"Bnc2"</span>]</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>tf_auc <span class="op">=</span> pipeline.get_TF_auc(TF_name <span class="op">=</span> tf_name, stacked<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(tf_auc),<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>tf_auc[<span class="dv">0</span>].head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Retrieving AUC for TF: ['Bnc2']
+&lt;class 'dict'&gt; 
+</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="24">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Bnc2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">01_01_28__s1</th>
+<td>0.381035</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">01_01_62__s1</th>
+<td>0.473624</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">01_02_38__s1</th>
+<td>0.433434</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">01_02_54__s1</th>
+<td>0.389323</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">01_02_81__s1</th>
+<td>0.477805</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="cell-49" class="cell" data-execution_count="25">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>tf_auc_stack <span class="op">=</span> pipeline.get_TF_auc(TF_name<span class="op">=</span> tf_name, stacked<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(tf_auc_stack),<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>tf_auc_stack.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Retrieving AUC for TF: ['Bnc2']
+&lt;class 'pandas.core.frame.DataFrame'&gt; 
+</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="25">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Bnc2</th>
+<th data-quarto-table-cell-role="th">label</th>
+<th data-quarto-table-cell-role="th">category</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">01_01_28__s1</th>
+<td>0.381035</td>
+<td>0</td>
+<td>control</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">01_01_62__s1</th>
+<td>0.473624</td>
+<td>0</td>
+<td>control</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">01_02_38__s1</th>
+<td>0.433434</td>
+<td>0</td>
+<td>control</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">01_02_54__s1</th>
+<td>0.389323</td>
+<td>0</td>
+<td>control</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">01_02_81__s1</th>
+<td>0.477805</td>
+<td>0</td>
+<td>control</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="cell-50" class="cell" data-execution_count="26">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>pipeline.p2simic_matrices</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="26">
+<pre><code>PosixPath('SimiCExampleRun/KPB25L/Tumor/outputSimic/matrices/experiment_tumor/experiment_tumor_L1_0.01_L2_0.001_simic_matrices.pickle')</code></pre>
+</div>
+</div>
+<div id="cell-51" class="cell" data-execution_count="27">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>tf_names <span class="op">=</span> [<span class="st">"Bnc2"</span>, <span class="st">"Runx2"</span>]</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>tf_auc <span class="op">=</span> pipeline.get_TF_auc(TF_name<span class="op">=</span> tf_names, stacked<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>tf_auc.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Retrieving AUC for TF: ['Bnc2', 'Runx2']</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="27">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Bnc2</th>
+<th data-quarto-table-cell-role="th">Runx2</th>
+<th data-quarto-table-cell-role="th">label</th>
+<th data-quarto-table-cell-role="th">category</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">01_01_28__s1</th>
+<td>0.381035</td>
+<td>0.365570</td>
+<td>0</td>
+<td>control</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">01_01_62__s1</th>
+<td>0.473624</td>
+<td>0.531623</td>
+<td>0</td>
+<td>control</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">01_02_38__s1</th>
+<td>0.433434</td>
+<td>0.489543</td>
+<td>0</td>
+<td>control</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">01_02_54__s1</th>
+<td>0.389323</td>
+<td>0.377849</td>
+<td>0</td>
+<td>control</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">01_02_81__s1</th>
+<td>0.477805</td>
+<td>0.516053</td>
+<td>0</td>
+<td>control</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Label 2 processed in 557.52 seconds
+Label 1 processed in 558.30 seconds
+Label 3 processed in 566.28 seconds
+Label 0 processed in 570.77 seconds</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>This tutorial covered:</p>
+<p>✓ Complete pipeline initialization with all parameters</p>
+<p>✓ Running the full analysis with filtering and AUC calculation</p>
+<p>✓ Loading and inspecting all result types</p>
+<p>✓ Analyzing weights and AUC score distributions</p>
+<p>✓ Calculating dissimilarity between cell populations</p>
+<p>✓ Extracting TF-specific regulatory networks</p>
+</section>
+<section id="next-steps" class="level2">
+<h2 class="anchored" data-anchor-id="next-steps">Next Steps</h2>
+<ol type="1">
+<li><strong>Visualize the results</strong>: Check <code>Tutorial_SimiCPipeline_visualization.ipynb</code></li>
+<li><strong>Optimize parameters</strong>: Cross-validation help you to find optimal λ₁ and λ₂ values for your data but sometimes you need to re-assess.</li>
+<li><strong>Explore results</strong>: Investigate specific TFs of interest and their predicted target networks</li>
+<li><strong>Validate findings</strong>: Compare inferred regulatory relationships with known literature or experimental data</li>
+<li><strong>Visualize networks</strong>: Create network diagrams for key TFs using network visualization tools</li>
+</ol>
+</section>
+<section id="additional-resources" class="level2">
+<h2 class="anchored" data-anchor-id="additional-resources">Additional Resources</h2>
+<ul>
+<li>Data preprocessing tutorial: <code>Tutorial_SimiCPipeline_preprocessing.ipynb</code></li>
+<li>Visualization tutorial: <code>Tutorial_SimiCPipeline_visualization.ipynb</code></li>
+<li>Check example (non interactive) scripts: <code>run_preprocessing.py</code> and <code>run_simicpipeline.py</code></li>
+<li>API documentation: Check the <code>SimiCPipeline</code> class documentation for detailed information</li>
+<li>Original publication: <a href="https://www.nature.com/articles/s42003-022-03319-7">Peng et al., Commun Biol 5, 351 (2022)</a></li>
+<li>High impact publications using SimiC algorithm:
+<ul>
+<li><a href="https://www.nature.com/articles/s41467-024-49529-x">Berastegui et al.</a>, <em><b>Nat Commum</b></em>, 13, 7619 (2022)</li>
+<li><a href="https://www.nature.com/articles/s41559-023-02090-0">Trianello et al.</a>, <em><b>Nat Ecol Evol, 7</b></em>, 1232–1244 (2023)</li>
+<li><a href="https://www.nature.com/articles/s41467-024-49529-x">Serrano et al.</a>, <em><b>Nat Commum</b></em>, 15, 5272 (2024)</li>
+<li><a href="https://www.sciencedirect.com/science/article/pii/S0168827825023803">Ariño et al.</a>, <em><b>J of Hepatol</b></em>, 84(1):135-149, (2026)</li>
+</ul></li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/RaghadShu\.github\.io\/SimiC-Suite\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>SimiC-Suite</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Built with Quarto</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
