@@ -70,6 +70,14 @@ main.content {
   text-align: center;
 }
 
+body:has(.navbar-nav .nav-link.active[href="./simicpipeline.html"]) .quarto-title-block .title {
+  color: var(--simic-purple);
+}
+
+body:has(.navbar-nav .nav-link.active[href="./simicviz.html"]) .quarto-title-block .title {
+  color: var(--simic-red);
+}
+
 .lead {
   max-width: 900px;
   margin: 0 auto 1.75rem;
