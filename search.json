@@ -235,7 +235,7 @@
     "href": "citation.html#original-simic-citation",
     "title": "Citation",
     "section": "Original SimiC Citation",
-    "text": "Original SimiC Citation\nPlease also cite the original SimiC work when using SimiCPipeline where appropriate.\n@article{simic_original_placeholder,\n  title   = {Original SimiC citation title to be added},\n  author  = {Author names to be added},\n  journal = {Journal to be added},\n  year    = {Year to be added},\n  doi     = {DOI to be added}\n}"
+    "text": "Original SimiC Citation\nPlease also cite the original SimiC work when using SimiCPipeline where appropriate.\nPeng, J., Serrano, G., Traniello, I.M. et al. SimiC enables the inference of complex gene regulatory dynamics across cell phenotypes. Communications Biology 5, 351 (2022). https://doi.org/10.1038/s42003-022-03319-7\n@article{peng2022simic,\n  title   = {SimiC enables the inference of complex gene regulatory dynamics across cell phenotypes},\n  author  = {Peng, Jianlong and Serrano, Ginny and Traniello, Irene M. and others},\n  journal = {Communications Biology},\n  volume  = {5},\n  number  = {1},\n  pages   = {351},\n  year    = {2022},\n  doi     = {10.1038/s42003-022-03319-7}\n}"
   },
   {
     "objectID": "index.html",
