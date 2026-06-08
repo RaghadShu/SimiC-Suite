@@ -3,6 +3,12 @@ title: "SimiCPipeline"
 description: "Python package for phenotype-specific GRN inference and Regulon Activity Score (RAS) calculation."
 ---
 
+<style>
+.quarto-title-block .title {
+  color: var(--simic-purple);
+}
+</style>
+
 SimiCPipeline is the Python component of SimiC-Suite. It supports phenotype-specific gene regulatory network (GRN) inference from single-cell RNA-seq data and calculation of Regulon Activity Score (RAS) values for downstream interpretation.
 
 SimiCPipeline builds on the SimiC framework for phenotype-aware regulatory network analysis. Please cite the original SimiC work when using SimiCPipeline where appropriate.

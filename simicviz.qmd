@@ -3,6 +3,12 @@ title: "SimiCviz"
 description: "R / Bioconductor package for tool-agnostic assessment and visualization of GRN outputs."
 ---
 
+<style>
+.quarto-title-block .title {
+  color: var(--simic-red);
+}
+</style>
+
 SimiCviz is the R / Bioconductor component of SimiC-Suite. It supports tool-agnostic assessment, comparison, visualization, and reporting for GRN outputs, including outputs produced by SimiCPipeline.
 
 Use SimiCviz when the goal is to inspect inferred network weights, compare regulatory programs, visualize Regulon Activity Score (RAS) patterns, and generate reproducible figures and tables.
